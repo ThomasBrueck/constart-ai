@@ -1,0 +1,47 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url = env("DB_URL")
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    email String @unique
+    username String @unique
+    password String
+    createdAt DateTime @default(now())
+    posts Post []
+}
+
+enum Technology {
+    REACT
+    NODE
+    TYPESCRIPT
+    PYTHON
+    DJANGO
+    REACT_NATIVE
+    FLUTTER
+    KOTLIN
+    SWIFT
+    GO
+    JAVASCRIPT
+    CPP
+    CSHARE
+    //... add more
+}
+
+model Post {
+    id Int @id @default(autoincrement())
+    title String
+    description String
+    technologies Technology []
+    createdAt DateTime @default(now())
+    isRemote Boolean @default(false)
+    slots Int
+    filled Int
+    userId Int
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
