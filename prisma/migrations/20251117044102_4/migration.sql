@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Post" ALTER COLUMN "filled" DROP DEFAULT,
-ALTER COLUMN "slots" DROP DEFAULT;

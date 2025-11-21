@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { postService } from "../services/post.service";
+import { postService } from "../services/startup.service";
 import { authMiddleware } from '../middleware/auth.middleware';
-import { postController } from "../controller/post.controller";
+import { postController } from "../controller/startup.controller";
 
 
-export const postRouter = Router();
+export const startupRouter = Router();
 
 postRouter.post('/create', authMiddleware, postController.create);
 

@@ -1,47 +1,278 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url = env("DB_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  STARTUP
+  COMPANY
+  ADMIN
 }
 
 model User {
-    id Int @id @default(autoincrement())
-    email String @unique
-    username String @unique
-    password String
-    createdAt DateTime @default(now())
-    posts Post []
+  id Int @id @default(autoincrement())
+  email String @unique
+  password String
+  role UserRole
+
+  name String @unique
+  description String?
+  logo String?
+  webiste String?
+  
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  startupInfo StartupInfo?
+  companyInfo CompanyInfo?
 }
 
-enum Technology {
-    REACT
-    NODE
-    TYPESCRIPT
-    PYTHON
-    DJANGO
-    REACT_NATIVE
-    FLUTTER
-    KOTLIN
-    SWIFT
-    GO
-    JAVASCRIPT
-    CPP
-    CSHARE
-    //... add more
+enum TechnologyType {
+  REACT
+  NODE
+  TYPESCRIPT
+  PYTHON
+  DJANGO
+  REACT_NATIVE
+  FLUTTER
+  KOTLIN
+  SWIFT
+  GO
+  JAVASCRIPT
+  CPP
+  CSHARE
+  //... add more
 }
 
-model Post {
-    id Int @id @default(autoincrement())
-    title String
-    description String
-    technologies Technology []
-    createdAt DateTime @default(now())
-    isRemote Boolean @default(false)
-    slots Int
-    filled Int
-    userId Int
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+enum IndustryType {
+  // Tecnología & Software
+  FINTECH
+  EDTECH
+  HEALTHTECH
+  BIOTECH
+  AGRITECH
+  PROPTECH
+  INSURTECH
+  LEGALTECH
+  HRTECH
+  MARTECH
+  ADTECH
+  CYBERSECURITY
+  BLOCKCHAIN
+  WEB3
+  CRYPTO
+  ARTIFICIAL_INTELLIGENCE
+  MACHINE_LEARNING
+  CLOUD_COMPUTING
+  SAAS
+  ECOMMERCE
+  MARKETPLACE
+  
+  // Movilidad & Transporte
+  MOBILITY
+  LOGISTICS
+  DELIVERY
+  TRANSPORTATION
+  AUTOMOTIVE
+  ELECTRIC_VEHICLES
+  AUTONOMOUS_VEHICLES
+  
+  // Energía & Sostenibilidad
+  CLEANTECH
+  ENERGY
+  RENEWABLE_ENERGY
+  SUSTAINABILITY
+  CLIMATE_TECH
+  GREENTECH
+  CIRCULAR_ECONOMY
+  
+  // Salud & Bienestar
+  HEALTHCARE
+  TELEHEALTH
+  MENTAL_HEALTH
+  FITNESS
+  WELLNESS
+  PHARMACEUTICALS
+  MEDICAL_DEVICES
+  
+  // Finanzas
+  BANKING
+  PAYMENTS
+  LENDING
+  INVESTMENT
+  WEALTH_MANAGEMENT
+  
+  // Educación
+  EDUCATION
+  ONLINE_LEARNING
+  CORPORATE_TRAINING
+  LANGUAGE_LEARNING
+  
+  // Entretenimiento & Media
+  ENTERTAINMENT
+  GAMING
+  STREAMING
+  SOCIAL_MEDIA
+  CONTENT_CREATION
+  MUSIC
+  SPORTS
+  
+  // Comida & Bebida
+  FOODTECH
+  RESTAURANT_TECH
+  FOOD_DELIVERY
+  MEAL_KITS
+  AGRICULTURE
+  
+  // Retail & Consumo
+  RETAIL
+  FASHION
+  BEAUTY
+  CONSUMER_GOODS
+  DIRECT_TO_CONSUMER
+  
+  // Vivienda & Inmobiliario
+  REAL_ESTATE
+  CONSTRUCTION
+  SMART_HOME
+  COWORKING
+  
+  // Trabajo & Productividad
+  FUTURE_OF_WORK
+  PRODUCTIVITY
+  COLLABORATION
+  RECRUITING
+  FREELANCE_PLATFORMS
+  
+  // Internet of Things
+  IOT
+  HARDWARE
+  ROBOTICS
+  DRONES
+  WEARABLES
+  
+  // Viajes & Turismo
+  TRAVEL
+  TOURISM
+  HOSPITALITY
+  
+  // Comunicación
+  TELECOMMUNICATIONS
+  MESSAGING
+  VIDEO_CONFERENCING
+  
+  // Manufactura & Industrial
+  MANUFACTURING
+  INDUSTRY_4_0
+  SUPPLY_CHAIN
+  
+  // Otros
+  SPACE_TECH
+  NANOTECHNOLOGY
+  QUANTUM_COMPUTING
+  VIRTUAL_REALITY
+  AUGMENTED_REALITY
+  API_TOOLS
+  DEVELOPER_TOOLS
+  DATA_ANALYTICS
+  BUSINESS_INTELLIGENCE
+  OTHER
+}
+
+model StartupInfo {
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  foundedYear Int
+  industry IndustryType
+  technologies TechnologyType[]
+
+  pitchDeck String?
+  demoVideo String
+
+  monthlyUsersAverage Int?
+  revenue Int?
+
+  teamSize Int
+  members Member[]
+
+  visible Boolean @default(false)
+
+  github String?
+  instagram String?
+  linkedin String?
+  facebook String?
+}
+
+enum CompanyType {
+  VENTURE_CAPITAL       // Fondo de inversión
+  ANGEL_INVESTOR        // Inversor ángel
+  ACCELERATOR           // Aceleradora/Incubadora
+  CORPORATION           // Empresa/Corporación
+  STARTUP               // Otra start-up
+  GOVERNMENT            // Gobierno/Institución
+  OTHER                 // Otro
+}
+
+model CompanyInfo {
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  industry IndustryType
+  size String
+  companyType CompanyType
+  website String?
+}
+
+enum PositionType {
+  CEO
+  CO_FOUNDER
+
+  UX_DESIGNER
+  UI_DESIGNER
+  PRODUCT_DESIGNER
+  PRODUCT_MANAGER
+
+  SOFTWARE_ENGINEER
+  FRONTEND_DEVELOPER
+  BACKEND_DEVELOPER
+  FULLSTACK_DEVELOPER
+  MOBILE_DEVELOPER
+  DEVOPS_ENGINEER
+  DATA_ENGINEER
+  ML_ENGINEER
+  SECURITY_ENGINEER
+  DATA_SCIENTIST
+
+  MARKETING_MANAGER
+  SALES_MANAGER
+  CONTENT_MANAGER
+
+  OTHER
+
+}
+
+model Member {
+  id Int @id @default(autoincrement())
+  startupInfoId Int
+  name String
+  age Int
+  position PositionType
+
+  profileImage String?
+  university String?
+
+  startup StartupInfo @relation(fields: [startupInfoId], references: [id], onDelete: Cascade)
 }

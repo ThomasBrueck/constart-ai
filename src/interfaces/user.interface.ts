@@ -1,8 +1,11 @@
-export interface UserInput {
+import { UserRole } from "@prisma/client";
+
+export interface UserInputRegister {
     email: string;
-    username: string;
+    name: string;
     password: string;
     confirmPassword: string;
+    role: UserRole;
 }
 
 export interface UserInputLogin {
