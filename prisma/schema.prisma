@@ -215,6 +215,8 @@ model StartupInfo {
   instagram String?
   linkedin String?
   facebook String?
+
+  embedding Unsupported("vector(768)")?
 }
 
 enum CompanyType {
@@ -248,8 +250,17 @@ model CompanyInfo {
   companyType CompanyType?
   website String?
 
-  plan Plan
-  planStatus PlanStatus
+  plan Plan @default(FREE)
+  planStatus PlanStatus @default(INACTIVE)
+
+  stripeCustomerId String?
+  stripeSubscriptionId String?
+
+  searchesUsed Int @default(0)
+  searchesRemaining Int @default(3)
+
+  lastSearchReset DateTime @default(now())
+  
 }
 
 enum PositionType {
