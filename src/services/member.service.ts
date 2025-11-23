@@ -3,6 +3,8 @@ import { MemberInput } from "../interfaces/member.interface";
 import { prisma } from "../config/prisma.client";
 import { Member } from "../../generated/prisma/client";
 import { AppError } from "../utils/appError";
+import { userService } from "./user.service";
+import { PositionType } from '../../generated/prisma/enums';
 
 class MemberService {
 
@@ -14,7 +16,6 @@ class MemberService {
                     name: data.name,
                     age: data.age,
                     position: data.position,
-                    profileImage: data.profileImage,
                     university: data.university,
                 }
             });
@@ -86,6 +87,45 @@ class MemberService {
 
             return member;
 
+        } catch(error) {
+            throw error;
+        }
+    }
+
+    async updloadProfileImage(userId: number, memberId: number, profileUrl: string): Promise<Member> {
+        try {
+            const user = await prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (!user) throw new AppError('user not found', 404);
+
+            const startup = await prisma.startupInfo.findUnique({
+                where: { userId: userId },
+            });
+
+            if (!startup) throw new AppError('startup not found', 404);
+
+            const member = await memberService.getMemberById(startup.id, memberId);
+
+            const memberUpdated: Member = await prisma.member.update({
+                where: { id: member.id },
+                data: {
+                    profileImage: profileUrl,
+                },
+                select: {
+                    id: true,
+                    startupInfoId: true,
+                    name: true,
+                    age: true,
+                    position: true,
+                    profileImage: true,
+                    university: true,
+                }
+            });
+
+            return memberUpdated;
+            
         } catch(error) {
             throw error;
         }

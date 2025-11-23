@@ -8,3 +8,5 @@ export const fileRouter = Router();
 fileRouter.use(authMiddleware);
 
 fileRouter.post('/logo', upload.single('logo'), fileController.uploadLogo);
+
+fileRouter.post('/profile_image/:id', upload.single('profile_image'), fileController.uploadProfileImage);

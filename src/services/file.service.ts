@@ -1,6 +1,8 @@
 import { prisma } from '../config/prisma.client';
 import { AppError } from '../utils/appError';
 import cloudinary from '../config/cloudinary';
+import { startupService } from './startup.service';
+import { memberService } from './member.service';
 
 class FileService {
     
@@ -37,6 +39,27 @@ class FileService {
             'user-logos',
             `user_${userId}`
         );
+    }
+
+    async uploadProfileImage(fileBuffer: Buffer, userId: number, memberId: number): Promise<string> {
+        try {
+            const startup = await startupService.findByUserId(userId);
+
+            if (!startup) throw new AppError('startup profile does not exist', 404);
+
+            const member = await memberService.getMemberById(startup.id, memberId);
+
+            if (!member) throw new AppError('member does not exist', 404);
+
+            return this.uploadImage(
+                fileBuffer,
+                'member-profiles',
+                `member_${memberId}`,
+            );
+
+        } catch(error) {
+            throw error;
+        }
     }
 }
 
