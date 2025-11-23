@@ -3,9 +3,9 @@ import type { JwtPayload } from "../interfaces/jwt.interface";
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcryptjs";
 import { UserInputLogin, UserInputRegister } from "../interfaces/user.interface";
-import { userService } from "./user.service";
 import { AppError } from "../utils/appError";
-import { prisma } from "../lib/db";
+import { userService } from "./user.service";
+import { prisma } from "../config/prisma.client";
 
 class AuthService {
     private readonly JWT_SECRET: string;
@@ -35,7 +35,7 @@ class AuthService {
 
     }
 
-    async createUser(userData: UserInputRegister): Promise<boolean> {
+    async createUser(userData: UserInputRegister): Promise<User> {
         try {
             const existEmail: boolean = await userService.findByEmail(userData.email);
             const existName: boolean = await userService.findByName(userData.name);
@@ -60,7 +60,7 @@ class AuthService {
                 }               
             });
 
-            return true;
+            return user;
 
         } catch (error) {
             throw error;

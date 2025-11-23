@@ -5,12 +5,12 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum UserRole {
@@ -194,20 +194,22 @@ model StartupInfo {
   userId Int @unique
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  foundedYear Int
-  industry IndustryType
+  foundedYear Int?
+  industry IndustryType?
   technologies TechnologyType[]
 
   pitchDeck String?
-  demoVideo String
+  demoVideo String?
 
   monthlyUsersAverage Int?
   revenue Int?
 
-  teamSize Int
+  teamSize Int?
   members Member[]
 
   visible Boolean @default(false)
+
+  contactEmail String?
 
   github String?
   instagram String?
@@ -225,15 +227,29 @@ enum CompanyType {
   OTHER                 // Otro
 }
 
+enum Plan {
+  PRO
+  BASIC
+  FREE
+}
+
+enum PlanStatus {
+  ACTIVE
+  INACTIVE
+}
+
 model CompanyInfo {
   id Int @id @default(autoincrement())
   userId Int @unique
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  industry IndustryType
-  size String
-  companyType CompanyType
+  industry IndustryType?
+  size Int?
+  companyType CompanyType?
   website String?
+
+  plan Plan
+  planStatus PlanStatus
 }
 
 enum PositionType {

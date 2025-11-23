@@ -1,8 +1,8 @@
-import type { StartupInfo } from "@prisma/client";
 import type { NextFunction, Request, Response } from "express";
 import { startupService } from "../services/startup.service";
-import { StartupInfoInput } from "../interfaces/startup.interface";
+import { StartupInfoInputUpdate } from "../interfaces/startup.interface";
 import { start } from "repl";
+import { StartupInfo } from "../../generated/prisma/client";
 
 class StartupController {
 
@@ -27,23 +27,23 @@ class StartupController {
         }
     }
 
-    async createOrUpdateProfile(req: Request, res: Response, next: NextFunction) {
+    async updateProfile(req: Request, res: Response, next: NextFunction) {
         try {
-            const startupData: StartupInfoInput = req.body;
+            const startupData: StartupInfoInputUpdate = req.body;
             const userId: number = req.user?.userId;
 
-            const startup: StartupInfo = await startupService.createOrUpdateProfile(startupData, userId);
-            
+            const startup: StartupInfo = await startupService.updateProfile(startupData, userId);
+
             if (!startup) return res.status(404).json({
                 message: 'something went wrong',
             });
 
             return res.status(200).json({
-                message: 'succesfully created',
+                message: 'succesfully crreated',
             });
 
 
-        } catch (error) {
+        } catch(error) {
             console.error(error);
             next(error);
         }

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "StartupInfo" ALTER COLUMN "foundedYear" DROP NOT NULL,
+ALTER COLUMN "industry" DROP NOT NULL,
+ALTER COLUMN "demoVideo" DROP NOT NULL,
+ALTER COLUMN "teamSize" DROP NOT NULL;

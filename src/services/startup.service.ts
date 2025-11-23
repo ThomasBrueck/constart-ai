@@ -1,15 +1,19 @@
-import type { StartupInfo } from "@prisma/client";
-import type { StartupInfoInput } from "../interfaces/startup.interface";
-import { prisma } from "../lib/db";
 import { AppError, NotFoundError } from "../utils/appError";
 import { StartupInfoInputUpdate } from '../interfaces/startup.interface';
+import { prisma } from "../config/prisma.client";
+import { StartupInfo } from "../../generated/prisma/client";
+import { start } from "repl";
 
 class StartupService {
 
     async findAll(): Promise<StartupInfo[]> {
         try {
 
-            return await prisma.startupInfo.findMany();
+            return await prisma.startupInfo.findMany({
+                include: {
+                    members: true,
+                }
+            });
 
         } catch (error) {
             console.error(error);
@@ -17,67 +21,86 @@ class StartupService {
         }
     }
 
-    async createOrUpdateProfile(data: StartupInfoInput, userId: number): Promise<StartupInfo> {
+    async createProfile(userId: number): Promise<StartupInfo> {
         try {
             const user = await prisma.user.findUnique({
-                where: { id: userId }
+                where: { id: userId },
             });
 
             if (!user) throw new AppError('user not found', 404);
-            if (user.role !== 'STARTUP') throw new AppError('only startups can create startup profile', 403);
 
-            const existingProfile = await prisma.startupInfo.findUnique({
-                where: { userId }
+            return await prisma.startupInfo.create({
+                data: {
+                    userId: userId,
+                },
             });
 
-            if (!data.foundedYear) throw new AppError('founded year is required', 400);
-            if (!data.teamSize) throw new AppError('team size is required', 400);
-            if (!data.demoVideo) throw new AppError('demo video is required', 400);
+        } catch(error) {
+            throw error;
+        }
+    }
 
-            if (!existingProfile) {
-                return await prisma.startupInfo.create({
-                    data: {
-                        userId: userId,
-                        foundedYear: data.foundedYear,
-                        industry: data.industry,
-                        technologies: data.technologies,
-                        pitchDeck: data.pitchDeck,
-                        demoVideo: data.demoVideo,
-                        monthlyUsersAverage: data.monthlyUsersAverage,
-                        revenue: data.revenue,
-                        teamSize: data.teamSize,
-                        visible: data.visible,
-                        github: data.github,
-                        instagram: data.instagram,
-                        linkedin: data.linkedin,
-                        facebook: data.facebook,
-                    },
-                });
+    async updateProfile(data: StartupInfoInputUpdate, userId: number): Promise<StartupInfo> {
+        try {
+            const startup = await prisma.startupInfo.findUnique({
+                where: { userId},
+                include: {
+                    members: true,
+                }
+            });
 
-            } else {
-                const dataUpdate: StartupInfoInputUpdate = data;
+            if (!startup) throw new AppError('startup not found', 404);
 
-                return await prisma.startupInfo.update({
-                    where: { userId },
-                    data: {
-                        foundedYear: dataUpdate.foundedYear,
-                        industry: dataUpdate.industry,
-                        technologies: data.technologies,
-                        pitchDeck: data.pitchDeck,
-                        demoVideo: data.demoVideo,
-                        monthlyUsersAverage: data.monthlyUsersAverage,
-                        revenue: data.revenue,
-                        teamSize: data.teamSize,
-                        visible: data.visible,
-                        github: data.github,
-                        instagram: data.instagram,
-                        linkedin: data.linkedin,
-                        facebook: data.facebook,
-                    },
-                });
+            if (data.visible) {
+                const finalDemoVideo = data.demoVideo ?? startup.demoVideo;
+                const finalMonthlyUsers = data.monthlyUsersAverage ?? startup.monthlyUsersAverage;
+                const finalTeamSize = data.teamSize ?? startup.teamSize;
+                const finalIndustry = data.industry ?? startup.industry;
+                const finalFoundedYear = data.foundedYear ?? startup.foundedYear;
+                const finalContactEmail = data.contactEmail ?? startup.contactEmail;
 
+                if (!finalDemoVideo) {
+                    throw new AppError('You need to upload a demo video before making profile visible', 400);
+                }
+                if (!finalMonthlyUsers) {
+                    throw new AppError('You need to specify monthly users average before making profile visible', 400);
+                }
+                if (!finalTeamSize || finalTeamSize === 0) {
+                    throw new AppError('You need to specify team size before making profile visible', 400);
+                }
+                if (!finalIndustry) {
+                    throw new AppError('You need to choose an industry before making profile visible', 400);
+                }
+                if (!finalFoundedYear || finalFoundedYear === 0) {
+                    throw new AppError('You need to specify founded year before making profile visible', 400);
+                }
+                if (startup.members.length === 0) {
+                    throw new AppError('You need to add at least one team member before making profile visible', 400);
+                }
+                if (!finalContactEmail) {
+                    throw new AppError('You need to add you contact email before making profile visible', 400);
+                }
             }
 
+
+            return await prisma.startupInfo.update({
+                where: { userId },
+                data: {
+                    foundedYear: data.foundedYear,
+                    industry: data.industry,
+                    technologies: data.technologies,
+                    pitchDeck: data.pitchDeck,
+                    demoVideo: data.demoVideo,
+                    monthlyUsersAverage: data.monthlyUsersAverage,
+                    revenue: data.revenue,
+                    teamSize: data.teamSize,
+                    visible: data.visible,
+                    github: data.github,
+                    instagram: data.instagram,
+                    linkedin: data.linkedin,
+                    facebook: data.facebook,
+                },
+            });
 
         } catch(error) {
             console.error(error);

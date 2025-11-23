@@ -12,3 +12,11 @@ export interface UserInputLogin {
     email: string;
     password: string;
 }
+
+export interface UserInputUpdate {
+    email?: string;
+    name?: string;
+    description?: string;
+    website?: string;
+
+}

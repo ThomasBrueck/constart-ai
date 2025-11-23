@@ -6,7 +6,14 @@ import { authController } from "../controller/auth.controller";
 
 export const userRouter = Router();
 
-userRouter.post('/register', authController.register);
+userRouter.use(authMiddleware);
 
-userRouter.post('/login', authController.login);
+userRouter.get('/me', userController.getMyBasicInfo);
+
+userRouter.put('/me', userController.updateMyBasicInfo);
+
+userRouter.put('/me/password', userController.changePassword);
+
+userRouter.delete('/me', userController.deleteMyAccount);
+
 
