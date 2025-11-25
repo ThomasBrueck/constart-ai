@@ -39,7 +39,7 @@ class StartupController {
             });
 
             return res.status(200).json({
-                message: 'succesfully crreated',
+                message: 'succesfully created',
             });
 
 

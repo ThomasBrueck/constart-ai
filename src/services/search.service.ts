@@ -70,6 +70,7 @@ class SearchService {
         }
     }
 
+    // For admin in the future if the app grow
     async updateAllStartupEmbeddings() {
         try {
             const startups = await prisma.startupInfo.findMany({
@@ -97,3 +98,5 @@ class SearchService {
         }
     }
 }
+
+export const searchService = new SearchService();

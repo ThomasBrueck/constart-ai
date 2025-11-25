@@ -22,6 +22,41 @@ class UserService {
         return exist !== null;
     }
 
+    async findById(userId: number): Promise<User | null> {
+        try {
+            const user: User | null = await prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (!user) {
+                throw new AppError('user not found', 404);
+            }
+
+            return user;
+
+        } catch(error) {
+            throw error;
+        }
+    }
+
+    async isCompany(userId: number): Promise<boolean> {
+        try {
+
+            const user: User | null = await prisma.user.findUnique({
+                where: { id: userId },
+            });
+
+            if (!user) {
+                throw new AppError('user not found', 404);
+            }
+
+            return user.role === 'COMPANY';
+
+        } catch(error) {
+            throw error;
+        }
+    }
+
     async getMyBasicInformation(userId: number): Promise<User | null> {
         try {
             const basicInfo: User | null = await prisma.user.findUnique({

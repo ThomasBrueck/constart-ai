@@ -3,6 +3,7 @@ import { StartupInfoInputUpdate } from '../interfaces/startup.interface';
 import { prisma } from "../config/prisma.client";
 import { StartupInfo } from "../../generated/prisma/client";
 import { start } from "repl";
+import { searchService } from "./search.service";
 
 class StartupService {
 
@@ -82,6 +83,8 @@ class StartupService {
                 }
             }
 
+            // update embedding for future searches of companies
+            await searchService.updateStartupEmbedding(startup.id);
 
             return await prisma.startupInfo.update({
                 where: { userId },
