@@ -30,12 +30,16 @@ export type CompanyInfoAvgAggregateOutputType = {
   id: number | null
   userId: number | null
   size: number | null
+  searchesUsed: number | null
+  searchesRemaining: number | null
 }
 
 export type CompanyInfoSumAggregateOutputType = {
   id: number | null
   userId: number | null
   size: number | null
+  searchesUsed: number | null
+  searchesRemaining: number | null
 }
 
 export type CompanyInfoMinAggregateOutputType = {
@@ -47,6 +51,11 @@ export type CompanyInfoMinAggregateOutputType = {
   website: string | null
   plan: $Enums.Plan | null
   planStatus: $Enums.PlanStatus | null
+  stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
+  searchesUsed: number | null
+  searchesRemaining: number | null
+  lastSearchReset: Date | null
 }
 
 export type CompanyInfoMaxAggregateOutputType = {
@@ -58,6 +67,11 @@ export type CompanyInfoMaxAggregateOutputType = {
   website: string | null
   plan: $Enums.Plan | null
   planStatus: $Enums.PlanStatus | null
+  stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
+  searchesUsed: number | null
+  searchesRemaining: number | null
+  lastSearchReset: Date | null
 }
 
 export type CompanyInfoCountAggregateOutputType = {
@@ -69,6 +83,11 @@ export type CompanyInfoCountAggregateOutputType = {
   website: number
   plan: number
   planStatus: number
+  stripeCustomerId: number
+  stripeSubscriptionId: number
+  searchesUsed: number
+  searchesRemaining: number
+  lastSearchReset: number
   _all: number
 }
 
@@ -77,12 +96,16 @@ export type CompanyInfoAvgAggregateInputType = {
   id?: true
   userId?: true
   size?: true
+  searchesUsed?: true
+  searchesRemaining?: true
 }
 
 export type CompanyInfoSumAggregateInputType = {
   id?: true
   userId?: true
   size?: true
+  searchesUsed?: true
+  searchesRemaining?: true
 }
 
 export type CompanyInfoMinAggregateInputType = {
@@ -94,6 +117,11 @@ export type CompanyInfoMinAggregateInputType = {
   website?: true
   plan?: true
   planStatus?: true
+  stripeCustomerId?: true
+  stripeSubscriptionId?: true
+  searchesUsed?: true
+  searchesRemaining?: true
+  lastSearchReset?: true
 }
 
 export type CompanyInfoMaxAggregateInputType = {
@@ -105,6 +133,11 @@ export type CompanyInfoMaxAggregateInputType = {
   website?: true
   plan?: true
   planStatus?: true
+  stripeCustomerId?: true
+  stripeSubscriptionId?: true
+  searchesUsed?: true
+  searchesRemaining?: true
+  lastSearchReset?: true
 }
 
 export type CompanyInfoCountAggregateInputType = {
@@ -116,6 +149,11 @@ export type CompanyInfoCountAggregateInputType = {
   website?: true
   plan?: true
   planStatus?: true
+  stripeCustomerId?: true
+  stripeSubscriptionId?: true
+  searchesUsed?: true
+  searchesRemaining?: true
+  lastSearchReset?: true
   _all?: true
 }
 
@@ -214,6 +252,11 @@ export type CompanyInfoGroupByOutputType = {
   website: string | null
   plan: $Enums.Plan
   planStatus: $Enums.PlanStatus
+  stripeCustomerId: string | null
+  stripeSubscriptionId: string | null
+  searchesUsed: number
+  searchesRemaining: number
+  lastSearchReset: Date
   _count: CompanyInfoCountAggregateOutputType | null
   _avg: CompanyInfoAvgAggregateOutputType | null
   _sum: CompanyInfoSumAggregateOutputType | null
@@ -248,6 +291,11 @@ export type CompanyInfoWhereInput = {
   website?: Prisma.StringNullableFilter<"CompanyInfo"> | string | null
   plan?: Prisma.EnumPlanFilter<"CompanyInfo"> | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusFilter<"CompanyInfo"> | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.StringNullableFilter<"CompanyInfo"> | string | null
+  stripeSubscriptionId?: Prisma.StringNullableFilter<"CompanyInfo"> | string | null
+  searchesUsed?: Prisma.IntFilter<"CompanyInfo"> | number
+  searchesRemaining?: Prisma.IntFilter<"CompanyInfo"> | number
+  lastSearchReset?: Prisma.DateTimeFilter<"CompanyInfo"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
@@ -260,6 +308,11 @@ export type CompanyInfoOrderByWithRelationInput = {
   website?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrder
   planStatus?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  searchesUsed?: Prisma.SortOrder
+  searchesRemaining?: Prisma.SortOrder
+  lastSearchReset?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -275,6 +328,11 @@ export type CompanyInfoWhereUniqueInput = Prisma.AtLeast<{
   website?: Prisma.StringNullableFilter<"CompanyInfo"> | string | null
   plan?: Prisma.EnumPlanFilter<"CompanyInfo"> | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusFilter<"CompanyInfo"> | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.StringNullableFilter<"CompanyInfo"> | string | null
+  stripeSubscriptionId?: Prisma.StringNullableFilter<"CompanyInfo"> | string | null
+  searchesUsed?: Prisma.IntFilter<"CompanyInfo"> | number
+  searchesRemaining?: Prisma.IntFilter<"CompanyInfo"> | number
+  lastSearchReset?: Prisma.DateTimeFilter<"CompanyInfo"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id" | "userId">
 
@@ -287,6 +345,11 @@ export type CompanyInfoOrderByWithAggregationInput = {
   website?: Prisma.SortOrderInput | Prisma.SortOrder
   plan?: Prisma.SortOrder
   planStatus?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrderInput | Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  searchesUsed?: Prisma.SortOrder
+  searchesRemaining?: Prisma.SortOrder
+  lastSearchReset?: Prisma.SortOrder
   _count?: Prisma.CompanyInfoCountOrderByAggregateInput
   _avg?: Prisma.CompanyInfoAvgOrderByAggregateInput
   _max?: Prisma.CompanyInfoMaxOrderByAggregateInput
@@ -306,6 +369,11 @@ export type CompanyInfoScalarWhereWithAggregatesInput = {
   website?: Prisma.StringNullableWithAggregatesFilter<"CompanyInfo"> | string | null
   plan?: Prisma.EnumPlanWithAggregatesFilter<"CompanyInfo"> | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusWithAggregatesFilter<"CompanyInfo"> | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.StringNullableWithAggregatesFilter<"CompanyInfo"> | string | null
+  stripeSubscriptionId?: Prisma.StringNullableWithAggregatesFilter<"CompanyInfo"> | string | null
+  searchesUsed?: Prisma.IntWithAggregatesFilter<"CompanyInfo"> | number
+  searchesRemaining?: Prisma.IntWithAggregatesFilter<"CompanyInfo"> | number
+  lastSearchReset?: Prisma.DateTimeWithAggregatesFilter<"CompanyInfo"> | Date | string
 }
 
 export type CompanyInfoCreateInput = {
@@ -313,8 +381,13 @@ export type CompanyInfoCreateInput = {
   size?: number | null
   companyType?: $Enums.CompanyType | null
   website?: string | null
-  plan: $Enums.Plan
-  planStatus: $Enums.PlanStatus
+  plan?: $Enums.Plan
+  planStatus?: $Enums.PlanStatus
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  searchesUsed?: number
+  searchesRemaining?: number
+  lastSearchReset?: Date | string
   user: Prisma.UserCreateNestedOneWithoutCompanyInfoInput
 }
 
@@ -325,8 +398,13 @@ export type CompanyInfoUncheckedCreateInput = {
   size?: number | null
   companyType?: $Enums.CompanyType | null
   website?: string | null
-  plan: $Enums.Plan
-  planStatus: $Enums.PlanStatus
+  plan?: $Enums.Plan
+  planStatus?: $Enums.PlanStatus
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  searchesUsed?: number
+  searchesRemaining?: number
+  lastSearchReset?: Date | string
 }
 
 export type CompanyInfoUpdateInput = {
@@ -336,6 +414,11 @@ export type CompanyInfoUpdateInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchesUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  searchesRemaining?: Prisma.IntFieldUpdateOperationsInput | number
+  lastSearchReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutCompanyInfoNestedInput
 }
 
@@ -348,6 +431,11 @@ export type CompanyInfoUncheckedUpdateInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchesUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  searchesRemaining?: Prisma.IntFieldUpdateOperationsInput | number
+  lastSearchReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CompanyInfoCreateManyInput = {
@@ -357,8 +445,13 @@ export type CompanyInfoCreateManyInput = {
   size?: number | null
   companyType?: $Enums.CompanyType | null
   website?: string | null
-  plan: $Enums.Plan
-  planStatus: $Enums.PlanStatus
+  plan?: $Enums.Plan
+  planStatus?: $Enums.PlanStatus
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  searchesUsed?: number
+  searchesRemaining?: number
+  lastSearchReset?: Date | string
 }
 
 export type CompanyInfoUpdateManyMutationInput = {
@@ -368,6 +461,11 @@ export type CompanyInfoUpdateManyMutationInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchesUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  searchesRemaining?: Prisma.IntFieldUpdateOperationsInput | number
+  lastSearchReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CompanyInfoUncheckedUpdateManyInput = {
@@ -379,6 +477,11 @@ export type CompanyInfoUncheckedUpdateManyInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchesUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  searchesRemaining?: Prisma.IntFieldUpdateOperationsInput | number
+  lastSearchReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CompanyInfoNullableScalarRelationFilter = {
@@ -395,12 +498,19 @@ export type CompanyInfoCountOrderByAggregateInput = {
   website?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   planStatus?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrder
+  searchesUsed?: Prisma.SortOrder
+  searchesRemaining?: Prisma.SortOrder
+  lastSearchReset?: Prisma.SortOrder
 }
 
 export type CompanyInfoAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   size?: Prisma.SortOrder
+  searchesUsed?: Prisma.SortOrder
+  searchesRemaining?: Prisma.SortOrder
 }
 
 export type CompanyInfoMaxOrderByAggregateInput = {
@@ -412,6 +522,11 @@ export type CompanyInfoMaxOrderByAggregateInput = {
   website?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   planStatus?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrder
+  searchesUsed?: Prisma.SortOrder
+  searchesRemaining?: Prisma.SortOrder
+  lastSearchReset?: Prisma.SortOrder
 }
 
 export type CompanyInfoMinOrderByAggregateInput = {
@@ -423,12 +538,19 @@ export type CompanyInfoMinOrderByAggregateInput = {
   website?: Prisma.SortOrder
   plan?: Prisma.SortOrder
   planStatus?: Prisma.SortOrder
+  stripeCustomerId?: Prisma.SortOrder
+  stripeSubscriptionId?: Prisma.SortOrder
+  searchesUsed?: Prisma.SortOrder
+  searchesRemaining?: Prisma.SortOrder
+  lastSearchReset?: Prisma.SortOrder
 }
 
 export type CompanyInfoSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   size?: Prisma.SortOrder
+  searchesUsed?: Prisma.SortOrder
+  searchesRemaining?: Prisma.SortOrder
 }
 
 export type CompanyInfoCreateNestedOneWithoutUserInput = {
@@ -480,8 +602,13 @@ export type CompanyInfoCreateWithoutUserInput = {
   size?: number | null
   companyType?: $Enums.CompanyType | null
   website?: string | null
-  plan: $Enums.Plan
-  planStatus: $Enums.PlanStatus
+  plan?: $Enums.Plan
+  planStatus?: $Enums.PlanStatus
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  searchesUsed?: number
+  searchesRemaining?: number
+  lastSearchReset?: Date | string
 }
 
 export type CompanyInfoUncheckedCreateWithoutUserInput = {
@@ -490,8 +617,13 @@ export type CompanyInfoUncheckedCreateWithoutUserInput = {
   size?: number | null
   companyType?: $Enums.CompanyType | null
   website?: string | null
-  plan: $Enums.Plan
-  planStatus: $Enums.PlanStatus
+  plan?: $Enums.Plan
+  planStatus?: $Enums.PlanStatus
+  stripeCustomerId?: string | null
+  stripeSubscriptionId?: string | null
+  searchesUsed?: number
+  searchesRemaining?: number
+  lastSearchReset?: Date | string
 }
 
 export type CompanyInfoCreateOrConnectWithoutUserInput = {
@@ -517,6 +649,11 @@ export type CompanyInfoUpdateWithoutUserInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchesUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  searchesRemaining?: Prisma.IntFieldUpdateOperationsInput | number
+  lastSearchReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type CompanyInfoUncheckedUpdateWithoutUserInput = {
@@ -527,6 +664,11 @@ export type CompanyInfoUncheckedUpdateWithoutUserInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   plan?: Prisma.EnumPlanFieldUpdateOperationsInput | $Enums.Plan
   planStatus?: Prisma.EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
+  stripeCustomerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  stripeSubscriptionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  searchesUsed?: Prisma.IntFieldUpdateOperationsInput | number
+  searchesRemaining?: Prisma.IntFieldUpdateOperationsInput | number
+  lastSearchReset?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -540,6 +682,11 @@ export type CompanyInfoSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   website?: boolean
   plan?: boolean
   planStatus?: boolean
+  stripeCustomerId?: boolean
+  stripeSubscriptionId?: boolean
+  searchesUsed?: boolean
+  searchesRemaining?: boolean
+  lastSearchReset?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["companyInfo"]>
 
@@ -552,6 +699,11 @@ export type CompanyInfoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   website?: boolean
   plan?: boolean
   planStatus?: boolean
+  stripeCustomerId?: boolean
+  stripeSubscriptionId?: boolean
+  searchesUsed?: boolean
+  searchesRemaining?: boolean
+  lastSearchReset?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["companyInfo"]>
 
@@ -564,6 +716,11 @@ export type CompanyInfoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   website?: boolean
   plan?: boolean
   planStatus?: boolean
+  stripeCustomerId?: boolean
+  stripeSubscriptionId?: boolean
+  searchesUsed?: boolean
+  searchesRemaining?: boolean
+  lastSearchReset?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["companyInfo"]>
 
@@ -576,9 +733,14 @@ export type CompanyInfoSelectScalar = {
   website?: boolean
   plan?: boolean
   planStatus?: boolean
+  stripeCustomerId?: boolean
+  stripeSubscriptionId?: boolean
+  searchesUsed?: boolean
+  searchesRemaining?: boolean
+  lastSearchReset?: boolean
 }
 
-export type CompanyInfoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "industry" | "size" | "companyType" | "website" | "plan" | "planStatus", ExtArgs["result"]["companyInfo"]>
+export type CompanyInfoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "industry" | "size" | "companyType" | "website" | "plan" | "planStatus" | "stripeCustomerId" | "stripeSubscriptionId" | "searchesUsed" | "searchesRemaining" | "lastSearchReset", ExtArgs["result"]["companyInfo"]>
 export type CompanyInfoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
@@ -603,6 +765,11 @@ export type $CompanyInfoPayload<ExtArgs extends runtime.Types.Extensions.Interna
     website: string | null
     plan: $Enums.Plan
     planStatus: $Enums.PlanStatus
+    stripeCustomerId: string | null
+    stripeSubscriptionId: string | null
+    searchesUsed: number
+    searchesRemaining: number
+    lastSearchReset: Date
   }, ExtArgs["result"]["companyInfo"]>
   composites: {}
 }
@@ -1035,6 +1202,11 @@ export interface CompanyInfoFieldRefs {
   readonly website: Prisma.FieldRef<"CompanyInfo", 'String'>
   readonly plan: Prisma.FieldRef<"CompanyInfo", 'Plan'>
   readonly planStatus: Prisma.FieldRef<"CompanyInfo", 'PlanStatus'>
+  readonly stripeCustomerId: Prisma.FieldRef<"CompanyInfo", 'String'>
+  readonly stripeSubscriptionId: Prisma.FieldRef<"CompanyInfo", 'String'>
+  readonly searchesUsed: Prisma.FieldRef<"CompanyInfo", 'Int'>
+  readonly searchesRemaining: Prisma.FieldRef<"CompanyInfo", 'Int'>
+  readonly lastSearchReset: Prisma.FieldRef<"CompanyInfo", 'DateTime'>
 }
     
 

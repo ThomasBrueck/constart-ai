@@ -1,5 +1,9 @@
 import Stripe from "stripe";
 import { AppError } from "../utils/appError";
+import { planService } from "./plan.service";
+import { prisma } from "../config/prisma.client";
+import { emailService } from "./email.service";
+import { CompanyInfo } from '../../generated/prisma/client';
 
 class StripeService {
     private readonly stripe: Stripe;
@@ -74,10 +78,34 @@ class StripeService {
             throw error;
         }
 
-        switch(event.type) {
+        switch (event.type) {
             case 'checkout.session.completed':
                 const session = event.data.object as Stripe.Checkout.Session;
-                
+                await this.handleCheckoutComplete(session);
+                break;
+
+            case 'customer.subscription.updated':
+                const subscription = event.data.object as Stripe.Subscription;
+                await this.handleSusbscriptionUpdate(subscription);
+                break;
+
+            case 'customer.subscription.deleted':
+                const deletedSub = event.data.object as Stripe.Subscription;
+                await this.handleSubscriptionCanceled(deletedSub);
+                break;
+
+            case 'invoice.payment_succeeded':
+                const paidInvoice = event.data.object as Stripe.Invoice;
+                await this.handlePaymentSucceeded(paidInvoice);
+                break;
+
+            case 'invoice.payment_failed':
+                const failedInvoice = event.data.object as Stripe.Invoice;
+                await this.handlePaymentFailed(failedInvoice);
+                break;
+
+            default:
+                throw new AppError(`unhandled event type: ${event.type}`, 500);
         }
 
     }
@@ -91,12 +119,155 @@ class StripeService {
                 throw new AppError('missing metadata in checkout session', 500);
             }
 
-            // continue and create planService.ts
-            
+            await planService.updateCompanyPlan(companyId, plan,session.customer as string, session.subscription as string);
+
         } catch(error) {
             throw error;
         }
     }
 
+    private async handleSusbscriptionUpdate(subscription: Stripe.Subscription) {
+        try {
+            const customerId = subscription.customer.toString();
 
+            const company = await prisma.companyInfo.findFirst({
+                where: { stripeCustomerId: customerId },
+                include: { user: true },
+            });
+
+            if (!company) {
+                throw new AppError('company not found', 404);
+            }
+
+            if (subscription.status === 'active') {
+                await prisma.companyInfo.update({
+                    where: { id: company.id },
+                    data: { planStatus: 'ACTIVE' },
+                });
+
+            } else if (subscription.status === 'past_due') {
+                await emailService.sendPaymentFailed(company?.user.email, {
+                    companyName: company?.user.name,
+                    plan: company?.plan,
+                    amount: this.PLAN_PRICES[company?.plan as 'BASIC' | 'PRO'],
+                    updatePaymentUrl: 'https://urltofrontpayment/billing',
+                });
+
+            } else if (subscription.status === 'canceled') {
+                await planService.cancelCompanyPlan(company.id);
+
+            } else if (subscription.status === 'unpaid') {
+                await prisma.companyInfo.update({
+                    where: { id: company.id },
+                    data: { planStatus: 'INACTIVE'},
+                });
+            }
+
+        } catch(error) {
+            throw error;
+        }
+    }
+
+    private async handleSubscriptionCanceled(subscription: Stripe.Subscription) {
+        try {
+            const customerId = subscription.customer.toString();
+
+            const customerIdNmb = parseInt(customerId);
+
+            await planService.cancelCompanyPlan(customerIdNmb);
+
+            const company = await prisma.companyInfo.findFirst({
+                where: { stripeCustomerId: customerId },
+                include: { user: true },
+            });
+
+            if (!company) {
+                throw new AppError('company not found', 404);
+            }
+
+            await emailService.sendSubscriptionCanceled(company?.user.email, {
+                companyName: company?.user.name,
+                plan: company?.plan,
+            });
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    private async handlePaymentSucceeded(invoice: Stripe.Invoice) {
+        try {
+            const customerId = invoice.customer as string;
+
+            const company = await prisma.companyInfo.findFirst({
+                where: { stripeCustomerId: customerId },
+                include: { user: true },
+            });
+
+            if (!company) {
+                throw new AppError('company not found', 404);
+            }
+
+            await emailService.sendPaymentSuccess(company.user.email, {
+                companyName: company.user.name,
+                plan: company.plan,
+                amount: invoice.amount_paid,
+                invoiceUrl: invoice.hosted_invoice_url || '#',
+            });
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    private async handlePaymentFailed(invoice: Stripe.Invoice) {
+        try {
+            const customerId = invoice.customer as string;
+
+            const company = await prisma.companyInfo.findFirst({
+                where: { stripeCustomerId: customerId },
+                include: { user: true },
+            });
+
+            if (!company) {
+                throw new AppError('company not found', 404);
+            }
+
+            await prisma.companyInfo.update({
+                where: { id: company.id },
+                data: { planStatus: 'INACTIVE' },
+            });
+
+            await emailService.sendPaymentFailed(company.user.email, {
+                companyName: company.user.name,
+                plan: company.plan,
+                amount: invoice.amount_due,
+                updatePaymentUrl: 'https://urltofrontpayment/billing',
+            });
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async cancelSubscription(subscriptionId: string) {
+        try {
+            const subscription = await this.stripe.subscriptions.cancel(subscriptionId);
+
+            return subscription;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async getSubscription(subscriptionId: string) {
+        try {
+            return await this.stripe.subscriptions.retrieve(subscriptionId);
+
+        } catch (error) {
+            throw error;
+        }
+    }
 }
+
+export const stripeService = new StripeService();

@@ -119,7 +119,12 @@ export const CompanyInfoScalarFieldEnum = {
   companyType: 'companyType',
   website: 'website',
   plan: 'plan',
-  planStatus: 'planStatus'
+  planStatus: 'planStatus',
+  stripeCustomerId: 'stripeCustomerId',
+  stripeSubscriptionId: 'stripeSubscriptionId',
+  searchesUsed: 'searchesUsed',
+  searchesRemaining: 'searchesRemaining',
+  lastSearchReset: 'lastSearchReset'
 } as const
 
 export type CompanyInfoScalarFieldEnum = (typeof CompanyInfoScalarFieldEnum)[keyof typeof CompanyInfoScalarFieldEnum]
