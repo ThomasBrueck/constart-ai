@@ -49,6 +49,22 @@ class CompanyService {
             throw error;
         }
     }
+
+    async getCompanyByUserId(userId: number): Promise<CompanyInfo> {
+        try {
+            const company: CompanyInfo | null = await prisma.companyInfo.findUnique({
+                where: { userId: userId },
+            });
+
+            if (!company) {
+                throw new AppError('company not found', 400)
+            };
+
+            return company;
+        } catch(error) {
+            throw error;
+        }
+    }
 }
 
 export const companyService = new CompanyService();

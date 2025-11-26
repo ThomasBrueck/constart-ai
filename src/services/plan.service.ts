@@ -9,7 +9,7 @@ class PlanService {
         PRO: 9999999,
     }
 
-    async canSearch(companyId: number): Promise<{ cansearch: boolean, remaining: number; reason?: string }> {
+    async canSearch(companyId: number): Promise<{ canSearch: boolean, remaining: number; reason?: string }> {
         try {
             const company = await prisma.companyInfo.findUnique({
                 where: { id: companyId },
@@ -25,14 +25,14 @@ class PlanService {
 
             if (remaining <= 0) {
                 return {
-                    cansearch: false,
+                    canSearch: false,
                     remaining: 0,
                     reason: `you have reached your ${company.plan} plan limit. Updgrade to continue searching...`,
                 };
             }
 
             return {
-                cansearch: true,
+                canSearch: true,
                 remaining,
             };
 
@@ -58,7 +58,7 @@ class PlanService {
         }
     }
 
-    private async resetMonthlySearchesIfNeeded(companyId: number): Promise<void> {
+    async resetMonthlySearchesIfNeeded(companyId: number): Promise<void> {
         try {
             const company = await prisma.companyInfo.findUnique({
                 where: { id: companyId },

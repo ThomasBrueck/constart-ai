@@ -2,7 +2,6 @@ import Stripe from "stripe";
 import { AppError } from "../utils/appError";
 import { planService } from "./plan.service";
 import { prisma } from "../config/prisma.client";
-import { emailService } from "./email.service";
 import { CompanyInfo } from '../../generated/prisma/client';
 
 class StripeService {
@@ -119,7 +118,7 @@ class StripeService {
                 throw new AppError('missing metadata in checkout session', 500);
             }
 
-            await planService.updateCompanyPlan(companyId, plan,session.customer as string, session.subscription as string);
+            await planService.updateCompanyPlan(companyId, plan, session.customer as string, session.subscription as string);
 
         } catch(error) {
             throw error;
@@ -145,14 +144,6 @@ class StripeService {
                     data: { planStatus: 'ACTIVE' },
                 });
 
-            } else if (subscription.status === 'past_due') {
-                await emailService.sendPaymentFailed(company?.user.email, {
-                    companyName: company?.user.name,
-                    plan: company?.plan,
-                    amount: this.PLAN_PRICES[company?.plan as 'BASIC' | 'PRO'],
-                    updatePaymentUrl: 'https://urltofrontpayment/billing',
-                });
-
             } else if (subscription.status === 'canceled') {
                 await planService.cancelCompanyPlan(company.id);
 
@@ -176,20 +167,6 @@ class StripeService {
 
             await planService.cancelCompanyPlan(customerIdNmb);
 
-            const company = await prisma.companyInfo.findFirst({
-                where: { stripeCustomerId: customerId },
-                include: { user: true },
-            });
-
-            if (!company) {
-                throw new AppError('company not found', 404);
-            }
-
-            await emailService.sendSubscriptionCanceled(company?.user.email, {
-                companyName: company?.user.name,
-                plan: company?.plan,
-            });
-
         } catch (error) {
             throw error;
         }
@@ -197,22 +174,25 @@ class StripeService {
 
     private async handlePaymentSucceeded(invoice: Stripe.Invoice) {
         try {
-            const customerId = invoice.customer as string;
+            const customerId = invoice.customer?.toString();
+
+            if (!customerId) {
+                return;
+            }
 
             const company = await prisma.companyInfo.findFirst({
-                where: { stripeCustomerId: customerId },
-                include: { user: true },
+                where: { stripeSubscriptionId: customerId },
             });
 
             if (!company) {
-                throw new AppError('company not found', 404);
+                return;
             }
 
-            await emailService.sendPaymentSuccess(company.user.email, {
-                companyName: company.user.name,
-                plan: company.plan,
-                amount: invoice.amount_paid,
-                invoiceUrl: invoice.hosted_invoice_url || '#',
+            await planService.resetMonthlySearchesIfNeeded(company.id);
+
+            await prisma.companyInfo.update({
+                where: { id: company.id },
+                data: { planStatus: 'ACTIVE' },
             });
 
         } catch (error) {
@@ -226,7 +206,6 @@ class StripeService {
 
             const company = await prisma.companyInfo.findFirst({
                 where: { stripeCustomerId: customerId },
-                include: { user: true },
             });
 
             if (!company) {
@@ -236,13 +215,6 @@ class StripeService {
             await prisma.companyInfo.update({
                 where: { id: company.id },
                 data: { planStatus: 'INACTIVE' },
-            });
-
-            await emailService.sendPaymentFailed(company.user.email, {
-                companyName: company.user.name,
-                plan: company.plan,
-                amount: invoice.amount_due,
-                updatePaymentUrl: 'https://urltofrontpayment/billing',
             });
 
         } catch (error) {

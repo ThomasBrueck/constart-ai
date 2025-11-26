@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { userService } from '../services/user.service';
-import { User } from '../../generated/prisma/client';
+import { User, CompanyInfo } from '../../generated/prisma/client';
+import { companyService } from '../services/company.service';
+import { planService } from '../services/plan.service';
+import { searchService } from '../services/search.service';
 
 class SearchController {
 
@@ -32,7 +35,27 @@ class SearchController {
                     });
                 }
 
-                // Aqui abajo continuar logica segun el plan que tenga la COMPANY
+                const company = await companyService.getCompanyByUserId(user.id);
+
+                const { canSearch, remaining, reason } = await planService.canSearch(company.id);
+
+                if (!canSearch) {
+                    return res.status(403).json({
+                        message: reason || 'search limit reached',
+                    });
+                }
+
+                const results = await searchService.searchStartups(query, limit);
+
+                await planService.consumeSearch(company.id);
+
+                return res.status(200).json({
+                    data: {
+                        results,
+                        searchesRemaining: remaining - 1,
+                    },
+                });
+
             }
             
         } catch(error) {
@@ -41,3 +64,5 @@ class SearchController {
         }
     }
 }
+
+export const searchController = new SearchController();
