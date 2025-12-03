@@ -12,4 +12,4 @@ stripeRouter.post('/create-checkout', roleMiddleware(['COMPANY']), stripeControl
 
 stripeRouter.get('/subscription', roleMiddleware(['COMPANY']), stripeController.getSubscription);
 
-stripeRouter.post('/cancel-subscription', stripeController.cancelSubscription);
+stripeRouter.post('/cancel-subscription', roleMiddleware(['COMPANY']), stripeController.cancelSubscription);

@@ -3,6 +3,7 @@ import { AppError } from "../utils/appError";
 import { planService } from "./plan.service";
 import { prisma } from "../config/prisma.client";
 import { CompanyInfo } from '../../generated/prisma/client';
+import { companyService } from "./company.service";
 
 class StripeService {
     private readonly stripe: Stripe;
@@ -202,7 +203,7 @@ class StripeService {
             }
 
             const company = await prisma.companyInfo.findFirst({
-                where: { stripeSubscriptionId: customerId },
+                where: { stripeCustomerId: customerId },
             });
 
             if (!company) {
@@ -250,9 +251,15 @@ class StripeService {
     }
 
 
-    async cancelSubscription(subscriptionId: string) {
+    async cancelSubscription(companyId: number) {
         try {
-            const subscription = await this.stripe.subscriptions.cancel(subscriptionId);
+            const company: CompanyInfo = await companyService.getCompanyByUserId(companyId);
+
+            if (!company.stripeSubscriptionId) {
+                throw new AppError('the user does not have a subscription', 400);
+            }
+
+            const subscription = await this.stripe.subscriptions.cancel(company.stripeSubscriptionId);
 
             return subscription;
         } catch (error) {

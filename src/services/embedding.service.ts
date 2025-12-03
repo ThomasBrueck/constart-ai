@@ -7,11 +7,11 @@ class EmbeddingService {
     private readonly voyageAI: VoyageAIClient;
 
     constructor() {
-        if (!process.env.GEMINI_API_KEY) {
+        if (!process.env.VOYAGE_API_KEY) {
             throw new Error('VOYAGE_API_KEY must be defined in environment variable')
         }
 
-        this.voyageAI = new VoyageAIClient({apiKey: process.env.GEMINI_API_KEY});
+        this.voyageAI = new VoyageAIClient({apiKey: process.env.VOYAGE_API_KEY});
     }
 
     async generateEmbedding(text: string): Promise<number[]> {
@@ -19,17 +19,17 @@ class EmbeddingService {
 
             const response = await this.voyageAI.embed({
                 input: text,
-                model: 'voyage-code-2',
+                model: 'voyage-3.5-lite',
             });
 
-            if (!response || !Array.isArray(response.data) || response.data[0]?.embedding) {
+            if (!response || !Array.isArray(response.data) || !response.data[0]?.embedding) {
                 throw new AppError('error with response object throw it by voyage AI', 500);
             }
 
             const embedding: number[] | undefined = response.data[0]?.embedding;
 
-            if (!embedding || embedding.values.length !== 1536) {
-                throw new Error(`expected 1536 dimensions, got ${embedding?.values.length || 0}`);
+            if (!embedding || embedding.length !== 1024) {
+                throw new Error(`expected 1536 dimensions, got ${embedding.length || 0}`);
             }
 
             return embedding;

@@ -62,6 +62,7 @@ class SearchService {
                 INNER JOIN "User" u ON s."userId" = u.id
                 WHERE s.embedding IS NOT NULL
                 AND s.visible = true
+                AND 1 - (s.embedding <=> ${embeddingString}::vector) > 0.6
                 ORDER BY s.embedding <=> ${embeddingString}::vector
                 LIMIT ${limit}
             `;

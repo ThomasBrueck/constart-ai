@@ -47,12 +47,15 @@ class StartupService {
                 where: { userId},
                 include: {
                     members: true,
+                    user: true,
                 }
             });
 
             if (!startup) throw new AppError('startup not found', 404);
 
             if (data.visible) {
+                
+                // Information in startupInfo table
                 const finalDemoVideo = data.demoVideo ?? startup.demoVideo;
                 const finalMonthlyUsers = data.monthlyUsersAverage ?? startup.monthlyUsersAverage;
                 const finalTeamSize = data.teamSize ?? startup.teamSize;
@@ -80,6 +83,12 @@ class StartupService {
                 }
                 if (!finalContactEmail) {
                     throw new AppError('You need to add you contact email before making profile visible', 400);
+                }
+                if (!startup.user.description) {
+                    throw new AppError('You need to add your startup description', 400);
+                }
+                if (!startup.user.webiste) {
+                    throw new AppError('You need to add your startup website', 400);
                 }
             }
 

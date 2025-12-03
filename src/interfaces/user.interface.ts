@@ -14,6 +14,7 @@ export interface UserInputLogin {
 }
 
 export interface UserInputUpdate {
+    logo?: string;
     email?: string;
     name?: string;
     description?: string;

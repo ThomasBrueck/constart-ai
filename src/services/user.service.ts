@@ -98,6 +98,7 @@ class UserService {
             const updateUser = await prisma.user.update({
                 where: { id: userId },
                 data: {
+                    logo: data.logo,
                     email: data.email,
                     name: data.name,
                     description: data.description,
@@ -105,6 +106,7 @@ class UserService {
                 },
                 select: {
                     id: true,
+                    logo: true,
                     email: true,
                     name: true,
                     description: true,

@@ -11,4 +11,4 @@ ALTER COLUMN "plan" SET DEFAULT 'FREE',
 ALTER COLUMN "planStatus" SET DEFAULT 'INACTIVE';
 
 -- AlterTable
-ALTER TABLE "StartupInfo" ADD COLUMN     "embedding" vector(768);
+ALTER TABLE "StartupInfo" ADD COLUMN     "embedding" vector(1024);

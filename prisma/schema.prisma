@@ -216,7 +216,7 @@ model StartupInfo {
   linkedin String?
   facebook String?
 
-  embedding Unsupported("vector(768)")?
+  embedding Unsupported("vector(1024)")?
 }
 
 enum CompanyType {

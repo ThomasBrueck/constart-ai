@@ -111,7 +111,7 @@ class StripeController {
 
     async cancelSubscription(req: Request, res: Response, next: NextFunction) {
         try {
-            const companyId: string = req.user?.userId;
+            const companyId: number = req.user?.userId;
 
             if (!companyId) {
                 return res.status(400).json({
