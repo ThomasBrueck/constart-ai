@@ -101,6 +101,7 @@ class PlanService {
                     plan,
                     planStatus: 'ACTIVE',
                     searchesUsed: 0,
+                    searchesRemaining: limit,
                     lastSearchReset: new Date(),
                     stripeCustomerId,
                     stripeSubscriptionId,

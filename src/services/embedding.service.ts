@@ -1,30 +1,39 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { StartupInfo } from "../../generated/prisma/client";
-import { memberService } from './member.service';
+import { VoyageAIClient } from "voyageai";
+import { AppError } from "../utils/appError";
+import { EmbedResponseDataItem } from "voyageai/api";
+
 
 class EmbeddingService {
-    private readonly genAI: GoogleGenerativeAI;
+    private readonly voyageAI: VoyageAIClient;
 
     constructor() {
         if (!process.env.GEMINI_API_KEY) {
-            throw new Error('GEMINI_API_KEY must be defined in environment variable')
+            throw new Error('VOYAGE_API_KEY must be defined in environment variable')
         }
 
-        this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+        this.voyageAI = new VoyageAIClient({apiKey: process.env.GEMINI_API_KEY});
     }
 
     async generateEmbedding(text: string): Promise<number[]> {
         try {
-            const model = this.genAI.getGenerativeModel({ model: "text-embedding-001"});
 
-            const result = await model.embedContent(text);
-            const embedding = result.embedding.values;
+            const response = await this.voyageAI.embed({
+                input: text,
+                model: 'voyage-code-2',
+            });
 
-            if (!embedding || embedding.length !== 768) {
-                throw new Error(`expected 768 dimensions, got ${embedding?.length || 0}`);
+            if (!response || !Array.isArray(response.data) || response.data[0]?.embedding) {
+                throw new AppError('error with response object throw it by voyage AI', 500);
+            }
+
+            const embedding: number[] | undefined = response.data[0]?.embedding;
+
+            if (!embedding || embedding.values.length !== 1536) {
+                throw new Error(`expected 1536 dimensions, got ${embedding?.values.length || 0}`);
             }
 
             return embedding;
+
         } catch (error) {
             console.error('error generating embedding: ', error);
             throw new Error('failed to generate embedding');

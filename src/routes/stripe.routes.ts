@@ -8,8 +8,6 @@ export const stripeRouter = Router();
 
 stripeRouter.use(authMiddleware);
 
-stripeRouter.post('/webhook', express.raw({ type: 'application/json' }), stripeController.webhook.bind(stripeController));
-
 stripeRouter.post('/create-checkout', roleMiddleware(['COMPANY']), stripeController.createCheckout);
 
 stripeRouter.get('/subscription', roleMiddleware(['COMPANY']), stripeController.getSubscription);

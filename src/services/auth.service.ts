@@ -20,7 +20,8 @@ class AuthService {
     public generateToken(user: User): string {
         const payload: JwtPayload = ({
             userId: user.id,
-            email: user.email
+            email: user.email,
+            role: user.role,
         });
 
         return jwt.sign(payload, this.JWT_SECRET, { expiresIn: '12h'});

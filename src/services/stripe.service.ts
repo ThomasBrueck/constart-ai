@@ -62,7 +62,7 @@ class StripeService {
     }
 
     async handleStripeWebhook(payload: string | Buffer, signature: string): Promise<void> {
-        const webhookSecret = process.env.WEBHOOK_SECRET_KEY || '123';
+        const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
         if (!webhookSecret) {
             throw new AppError('STRIPE WEBHOOK KEY not configured', 500);
@@ -71,40 +71,47 @@ class StripeService {
         let event: Stripe.Event;
 
         try {
-            event = this.stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+            event = await this.stripe.webhooks.constructEventAsync(payload, signature, webhookSecret);
 
         } catch(error) {
+            console.error(error);
             throw error;
         }
 
-        switch (event.type) {
-            case 'checkout.session.completed':
-                const session = event.data.object as Stripe.Checkout.Session;
-                await this.handleCheckoutComplete(session);
-                break;
+        try {
+            switch (event.type) {
+                case 'checkout.session.completed':
+                    const session = event.data.object as Stripe.Checkout.Session;
+                    await this.handleCheckoutComplete(session);
+                    break;
 
-            case 'customer.subscription.updated':
-                const subscription = event.data.object as Stripe.Subscription;
-                await this.handleSusbscriptionUpdate(subscription);
-                break;
+                case 'customer.subscription.updated':
+                    const subscription = event.data.object as Stripe.Subscription;
+                    await this.handleSusbscriptionUpdate(subscription);
+                    break;
 
-            case 'customer.subscription.deleted':
-                const deletedSub = event.data.object as Stripe.Subscription;
-                await this.handleSubscriptionCanceled(deletedSub);
-                break;
+                case 'customer.subscription.deleted':
+                    const deletedSub = event.data.object as Stripe.Subscription;
+                    await this.handleSubscriptionCanceled(deletedSub);
+                    break;
 
-            case 'invoice.payment_succeeded':
-                const paidInvoice = event.data.object as Stripe.Invoice;
-                await this.handlePaymentSucceeded(paidInvoice);
-                break;
+                case 'invoice.payment_succeeded':
+                    const paidInvoice = event.data.object as Stripe.Invoice;
+                    await this.handlePaymentSucceeded(paidInvoice);
+                    break;
 
-            case 'invoice.payment_failed':
-                const failedInvoice = event.data.object as Stripe.Invoice;
-                await this.handlePaymentFailed(failedInvoice);
-                break;
+                case 'invoice.payment_failed':
+                    const failedInvoice = event.data.object as Stripe.Invoice;
+                    await this.handlePaymentFailed(failedInvoice);
+                    break;
 
-            default:
-                throw new AppError(`unhandled event type: ${event.type}`, 500);
+                default:
+                    console.info(`Stripe webhook ignored unhandled event type: ${event.type}`);
+                //throw new AppError(`unhandled event type: ${event.type}`, 500);
+            }
+        } catch(error) {
+            console.error('Error handling stripe event:', error);
+            throw error;
         }
 
     }
@@ -115,7 +122,8 @@ class StripeService {
             const plan = session.metadata?.plan as 'BASIC' | 'PRO';
 
             if (!companyId || !plan) {
-                throw new AppError('missing metadata in checkout session', 500);
+                console.warn('missing metadata in checkout session', session.id);
+                return
             }
 
             await planService.updateCompanyPlan(companyId, plan, session.customer as string, session.subscription as string);
@@ -127,7 +135,11 @@ class StripeService {
 
     private async handleSusbscriptionUpdate(subscription: Stripe.Subscription) {
         try {
-            const customerId = subscription.customer.toString();
+            const customerId = subscription.customer?.toString();
+            if (!customerId) {
+                console.warn('Subscription update missing customer — skipping. subscription.id=', subscription.id);
+                return;
+            }
 
             const company = await prisma.companyInfo.findFirst({
                 where: { stripeCustomerId: customerId },
@@ -135,7 +147,8 @@ class StripeService {
             });
 
             if (!company) {
-                throw new AppError('company not found', 404);
+                console.warn('Company not found for subscription update — skipping. customerId=', customerId);
+                return;
             }
 
             if (subscription.status === 'active') {
@@ -143,34 +156,42 @@ class StripeService {
                     where: { id: company.id },
                     data: { planStatus: 'ACTIVE' },
                 });
-
             } else if (subscription.status === 'canceled') {
                 await planService.cancelCompanyPlan(company.id);
-
             } else if (subscription.status === 'unpaid') {
                 await prisma.companyInfo.update({
                     where: { id: company.id },
-                    data: { planStatus: 'INACTIVE'},
+                    data: { planStatus: 'INACTIVE' },
                 });
             }
-
-        } catch(error) {
+        } catch (error) {
+            console.error('handleSusbscriptionUpdate failed:', error);
             throw error;
         }
     }
+
 
     private async handleSubscriptionCanceled(subscription: Stripe.Subscription) {
         try {
-            const customerId = subscription.customer.toString();
+            const customer = subscription.customer;
+            if (!customer) {
+                console.warn('Subscription canceled missing customer — skipping. subscription.id=', subscription.id);
+                return;
+            }
 
-            const customerIdNmb = parseInt(customerId);
+            const customerIdNmb = parseInt(customer.toString(), 10);
+            if (isNaN(customerIdNmb)) {
+                console.warn('Subscription canceled with non-numeric customer id — skipping. customer=', customer);
+                return;
+            }
 
             await planService.cancelCompanyPlan(customerIdNmb);
-
         } catch (error) {
+            console.error('handleSubscriptionCanceled failed:', error);
             throw error;
         }
     }
+
 
     private async handlePaymentSucceeded(invoice: Stripe.Invoice) {
         try {
@@ -200,27 +221,34 @@ class StripeService {
         }
     }
 
+
     private async handlePaymentFailed(invoice: Stripe.Invoice) {
         try {
-            const customerId = invoice.customer as string;
+            const customerId = invoice.customer as string | undefined;
+            if (!customerId) {
+                console.warn('invoice.payment_failed missing customer — skipping. invoice.id=', invoice.id);
+                return;
+            }
 
             const company = await prisma.companyInfo.findFirst({
                 where: { stripeCustomerId: customerId },
             });
 
             if (!company) {
-                throw new AppError('company not found', 404);
+                console.warn('Company not found for invoice.payment_failed — skipping. customerId=', customerId);
+                return;
             }
 
             await prisma.companyInfo.update({
                 where: { id: company.id },
                 data: { planStatus: 'INACTIVE' },
             });
-
         } catch (error) {
+            console.error('handlePaymentFailed failed:', error);
             throw error;
         }
     }
+
 
     async cancelSubscription(subscriptionId: string) {
         try {

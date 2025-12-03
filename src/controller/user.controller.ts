@@ -28,7 +28,7 @@ class UserController {
             const userId: number = req.user?.userId;
             const data: UserInputUpdate = req.body;
 
-            const updatedUser: User = await userService.updateMyBasicInfo(data, userId);
+            const updatedUser = await userService.updateMyBasicInfo(data, userId);
 
             return res.status(200).json({
                 data: updatedUser,

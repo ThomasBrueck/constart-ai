@@ -70,7 +70,7 @@ class UserService {
         }
     }
 
-    async updateMyBasicInfo(data: UserInputUpdate, userId: number): Promise<User> {
+    async updateMyBasicInfo(data: UserInputUpdate, userId: number): Promise<Omit<User, 'password' | 'logo' | 'createdAt' | 'updateAt' | 'role'>> {
         try {
 
             if (data.name) {
@@ -102,6 +102,13 @@ class UserService {
                     name: data.name,
                     description: data.description,
                     webiste: data.website,
+                },
+                select: {
+                    id: true,
+                    email: true,
+                    name: true,
+                    description: true,
+                    webiste: true,                    
                 }
             });
 

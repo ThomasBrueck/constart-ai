@@ -10,11 +10,12 @@ import { fileRouter } from "./routes/file.routes";
 import { companyRouter } from "./routes/company.routes";
 import { stripeRouter } from "./routes/stripe.routes";
 import { searchRouter } from "./routes/search.routes";
+import { stripeController } from "./controller/stripe.controller";
 
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use('/api/v1/stripe/webhook', express.raw({ type: 'application/json' }), stripeRouter);
+app.post('/api/v1/stripe/webhook', express.raw({ type: 'application/json' }), stripeController.webhook.bind(stripeController));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -25,8 +26,9 @@ app.use('/api/v1/startup', startupRouter);
 app.use('/api/v1/member', memberRouter);
 app.use('/api/v1/company', companyRouter);
 app.use('/api/v1/files', fileRouter);
-app.use('/api/v1/stripe', stripeRouter);
 app.use('/api/v1/search', searchRouter);
+app.use('/api/v1/stripe', stripeRouter);
+
 
 app.listen(port, () => console.log(`server running on http://localhost:${port}`));
 

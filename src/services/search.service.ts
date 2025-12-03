@@ -20,9 +20,12 @@ class SearchService {
 
             const embedding = await embeddingService.generateEmbedding(description);
 
+            const embeddingString = `[${embedding.join(",")}]`
+
+
             await prisma.$executeRaw`
                 UPDATE "StartupInfo"
-                SET embedding = ${embedding}::vector
+                SET embedding = ${embeddingString}::vector
                 WHERE id = ${startupId}
             `;
 
@@ -38,6 +41,8 @@ class SearchService {
         try {
             const queryEmbedding = await embeddingService.generateEmbedding(query);
 
+            const embeddingString = `[${queryEmbedding.join(",")}]`
+
             const results = await prisma.$queryRaw<any[]>`
                 SELECT 
                 s.id,
@@ -52,13 +57,12 @@ class SearchService {
                 u.name,
                 u.description,
                 u.logo,
-                u.location,
-                1 - (s.embedding <=> ${queryEmbedding}::vector) as similarity
+                1 - (s.embedding <=> ${embeddingString}::vector) as similarity
                 FROM "StartupInfo" s
                 INNER JOIN "User" u ON s."userId" = u.id
                 WHERE s.embedding IS NOT NULL
                 AND s.visible = true
-                ORDER BY s.embedding <=> ${queryEmbedding}::vector
+                ORDER BY s.embedding <=> ${embeddingString}::vector
                 LIMIT ${limit}
             `;
 
@@ -71,32 +75,32 @@ class SearchService {
     }
 
     // For admin in the future if the app grow
-    async updateAllStartupEmbeddings() {
-        try {
-            const startups = await prisma.startupInfo.findMany({
-                where: { visible: true },
-                select: { id: true },
-            });
+    // async updateAllStartupEmbeddings() {
+    //     try {
+    //         const startups = await prisma.startupInfo.findMany({
+    //             where: { visible: true },
+    //             select: { id: true },
+    //         });
 
-            let updated = 0;
-            let failed = 0;
+    //         let updated = 0;
+    //         let failed = 0;
 
-            for (const startup of startups) {
-                try {
-                    await this.updateStartupEmbedding(startup.id);
-                    updated++;
-                } catch (error) {
-                    console.error(`Failed to update embedding for startup ${startup.id}:`, error);
-                    failed++;
-                }
-            }
+    //         for (const startup of startups) {
+    //             try {
+    //                 await this.updateStartupEmbedding(startup.id);
+    //                 updated++;
+    //             } catch (error) {
+    //                 console.error(`Failed to update embedding for startup ${startup.id}:`, error);
+    //                 failed++;
+    //             }
+    //         }
 
-            return { updated, failed, total: startups.length };
-        } catch (error) {
-            console.error("Error updating all embeddings:", error);
-            throw error;
-        }
-    }
+    //         return { updated, failed, total: startups.length };
+    //     } catch (error) {
+    //         console.error("Error updating all embeddings:", error);
+    //         throw error;
+    //     }
+    // }
 }
 
 export const searchService = new SearchService();
