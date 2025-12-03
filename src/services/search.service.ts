@@ -45,24 +45,40 @@ class SearchService {
 
             const results = await prisma.$queryRaw<any[]>`
                 SELECT 
-                s.id,
-                s."userId",
-                s.industry,
-                s.technologies,
-                s."foundedYear",
-                s."monthlyUsersAverage",
-                s.revenue,
-                s."teamSize",
-                s."contactEmail",
-                u.name,
-                u.description,
-                u.logo,
-                1 - (s.embedding <=> ${embeddingString}::vector) as similarity
+                    s.id,
+                    s."userId",
+                    s.industry,
+                    s.technologies,
+                    s."foundedYear",
+                    s."monthlyUsersAverage",
+                    s.revenue,
+                    s."teamSize",
+                    s."contactEmail",
+                    u.name as "companyName",
+                    u.description as "companyDescription",
+                    u.logo as "companyLogo",
+                    1 - (s.embedding <=> ${embeddingString}::vector) as similarity,
+                    COALESCE(
+                        json_agg(
+                            json_build_object(
+                                'id', m.id,
+                                'name', m.name,
+                                'position', m.position,
+                                'university', m.university,
+                                'age', m.age,
+                                'profileImage', m."profileImage"
+                            )
+                            ORDER BY m.id
+                        ) FILTER (WHERE m.id IS NOT NULL),
+                        '[]'::json
+                    ) as members
                 FROM "StartupInfo" s
                 INNER JOIN "User" u ON s."userId" = u.id
+                LEFT JOIN "Member" m ON s.id = m."startupInfoId"
                 WHERE s.embedding IS NOT NULL
-                AND s.visible = true
-                AND 1 - (s.embedding <=> ${embeddingString}::vector) > 0.6
+                    AND s.visible = true
+                    AND 1 - (s.embedding <=> ${embeddingString}::vector) > 0.6
+                GROUP BY s.id, u.id, u.name, u.description, u.logo
                 ORDER BY s.embedding <=> ${embeddingString}::vector
                 LIMIT ${limit}
             `;
