@@ -16,7 +16,7 @@ class UserService {
     }
 
     async findByName(name: string): Promise<boolean> {
-        const exist = await prisma.user.findUnique({
+        const exist = await prisma.user.findFirst({
             where: { name }
         });
 

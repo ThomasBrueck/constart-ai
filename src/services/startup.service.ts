@@ -1,8 +1,7 @@
 import { AppError, NotFoundError } from "../utils/appError";
 import { StartupInfoInputUpdate } from '../interfaces/startup.interface';
 import { prisma } from "../config/prisma.client";
-import { StartupInfo } from "../../generated/prisma/client";
-import { start } from "repl";
+import { Prisma, StartupInfo } from "../../generated/prisma/client";
 import { searchService } from "./search.service";
 
 class StartupService {
@@ -96,24 +95,27 @@ class StartupService {
             // update embedding for future searches of companies
             await searchService.updateStartupEmbedding(startup.id);
 
+            // Build update data with proper typing
+            const updateData: any = {};
+            
+            if (data.foundedYear !== undefined) updateData.foundedYear = data.foundedYear;
+            if (data.industry !== undefined) updateData.industry = data.industry;
+            if (data.technologies !== undefined) updateData.technologies = { set: data.technologies };
+            if (data.pitchDeck !== undefined) updateData.pitchDeck = data.pitchDeck;
+            if (data.demoVideo !== undefined) updateData.demoVideo = data.demoVideo;
+            if (data.monthlyUsersAverage !== undefined) updateData.monthlyUsersAverage = data.monthlyUsersAverage;
+            if (data.revenue !== undefined) updateData.revenue = data.revenue;
+            if (data.teamSize !== undefined) updateData.teamSize = data.teamSize;
+            if (data.visible !== undefined) updateData.visible = data.visible;
+            if (data.github !== undefined) updateData.github = data.github;
+            if (data.instagram !== undefined) updateData.instagram = data.instagram;
+            if (data.linkedin !== undefined) updateData.linkedin = data.linkedin;
+            if (data.facebook !== undefined) updateData.facebook = data.facebook;
+            if (data.contactEmail !== undefined) updateData.contactEmail = data.contactEmail;
+
             return await prisma.startupInfo.update({
                 where: { userId },
-                data: {
-                    foundedYear: data.foundedYear,
-                    industry: data.industry,
-                    technologies: data.technologies,
-                    pitchDeck: data.pitchDeck,
-                    demoVideo: data.demoVideo,
-                    monthlyUsersAverage: data.monthlyUsersAverage,
-                    revenue: data.revenue,
-                    teamSize: data.teamSize,
-                    visible: data.visible,
-                    github: data.github,
-                    instagram: data.instagram,
-                    linkedin: data.linkedin,
-                    facebook: data.facebook,
-                    contactEmail: data.contactEmail,
-                },
+                data: updateData,
             });
 
         } catch(error) {
@@ -121,6 +123,7 @@ class StartupService {
             throw error;
         }
     }
+
 
     async findByUserId(userId: number): Promise<StartupInfo | null> {
         try {

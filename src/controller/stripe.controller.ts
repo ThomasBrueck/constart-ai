@@ -4,6 +4,11 @@ import { stripeService } from "../services/stripe.service";
 import { AppError } from "../utils/appError";
 import { prisma } from "../config/prisma.client";
 import { CompanyInfo } from "../../generated/prisma/client";
+import Stripe from "stripe";
+
+interface StripeSubscriptionWithPeriod extends Stripe.Subscription {
+    current_period_end: number;
+}
 
 class StripeController {
 
@@ -83,24 +88,24 @@ class StripeController {
 
     async getSubscription(req: Request, res: Response, next: NextFunction) {
         try {
-            const companyId: number = req.user?.userId;
+            const userId: number = req.user?.userId;
 
-            if (!companyId) {
+            if (!userId) {
                 return res.status(400).json({
-                    message: 'company id not found',
+                    message: 'user id not found',
                 });
             }
 
-            const company = await companyService.getCompanyByUserId(companyId);
+            const company = await companyService.getCompanyByUserId(userId);
 
             if (!company.stripeSubscriptionId) {
                 throw new AppError('no stripe subscription id found', 404);
             }
 
-            const subscriptionId = await stripeService.getSubscription(company.stripeSubscriptionId);
+            const subscription = await stripeService.getSubscription(company.stripeSubscriptionId);
 
             return res.status(200).json({
-                data: subscriptionId,
+                data: subscription,
             });
 
         } catch(error) {
@@ -111,21 +116,37 @@ class StripeController {
 
     async cancelSubscription(req: Request, res: Response, next: NextFunction) {
         try {
-            const companyId: number = req.user?.userId;
+            const userId: number = req.user?.userId;
 
-            if (!companyId) {
+            if (!userId) {
                 return res.status(400).json({
-                    message: 'company id not found',
+                    message: 'user id not found',
                 });
             }
 
-            const subscription = await stripeService.cancelSubscription(companyId);
+            const company = await companyService.getCompanyByUserId(userId);
+
+            if (!company) {
+                return res.status(404).json({
+                    message: 'company not found',
+                });
+            }
+
+            const subscription = await stripeService.cancelSubscription(company.id);
+
+            if (!subscription) {
+                return res.status(200).json({
+                    message: 'you already cancelled the plan',
+                });
+            }
+
+            const sub = subscription as unknown as StripeSubscriptionWithPeriod;
 
             return res.status(200).json({
-                message: 'subscriptioon will be canceled at the end of the billing period',
+                message: 'subscription will be canceled at the end of the billing period',
                 data: {
                     cancelAt: subscription.cancel_at,
-                    currentPeriodEnd: subscription.ended_at,
+                    currentPeriodEnd: sub.current_period_end,
                 },
             });
 

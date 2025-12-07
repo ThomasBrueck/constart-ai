@@ -65,7 +65,7 @@ enum TechnologyType {
   SOLID
   PREACT
   QWIK
-  
+
   // Mobile Development
   REACT_NATIVE
   FLUTTER
@@ -75,7 +75,7 @@ enum TechnologyType {
   XAMARIN
   CORDOVA
   CAPACITOR
-  
+
   // Backend Frameworks
   NODE
   EXPRESS
@@ -92,7 +92,7 @@ enum TechnologyType {
   PHOENIX
   ACTIX
   ROCKET
-  
+
   // Programming Languages
   JAVASCRIPT
   TYPESCRIPT
@@ -110,7 +110,7 @@ enum TechnologyType {
   DART
   R
   JULIA
-  
+
   // Databases
   POSTGRESQL
   MYSQL
@@ -126,7 +126,7 @@ enum TechnologyType {
   NEO4J
   INFLUXDB
   TIMESCALEDB
-  
+
   // Cloud Platforms
   AWS
   AZURE
@@ -139,7 +139,7 @@ enum TechnologyType {
   DIGITAL_OCEAN
   HEROKU
   CLOUDFLARE
-  
+
   // DevOps & Infrastructure
   DOCKER
   KUBERNETES
@@ -150,7 +150,7 @@ enum TechnologyType {
   GITLAB_CI
   CIRCLECI
   TRAVIS_CI
-  
+
   // AI & Machine Learning
   TENSORFLOW
   PYTORCH
@@ -161,7 +161,7 @@ enum TechnologyType {
   OPENAI
   ANTHROPIC
   STABLE_DIFFUSION
-  
+
   // Web3 & Blockchain
   ETHEREUM
   SOLIDITY
@@ -171,7 +171,7 @@ enum TechnologyType {
   TRUFFLE
   POLYGON
   SOLANA
-  
+
   // Testing
   JEST
   VITEST
@@ -180,7 +180,7 @@ enum TechnologyType {
   SELENIUM
   PYTEST
   JUNIT
-  
+
   // Design & UI
   TAILWIND
   MATERIAL_UI
@@ -189,7 +189,7 @@ enum TechnologyType {
   STYLED_COMPONENTS
   EMOTION
   SASS
-  
+
   // State Management
   REDUX
   ZUSTAND
@@ -197,7 +197,7 @@ enum TechnologyType {
   RECOIL
   JOTAI
   PINIA
-  
+
   // Build Tools
   VITE
   WEBPACK
@@ -205,7 +205,7 @@ enum TechnologyType {
   ESBUILD
   ROLLUP
   PARCEL
-  
+
   // Others
   GRAPHQL
   REST_API
@@ -233,84 +233,84 @@ enum PlanStatus {
 }
 
 enum CompanyType {
-  VENTURE_CAPITAL       // Fondo de inversión
-  ANGEL_INVESTOR        // Inversor ángel
-  ACCELERATOR           // Aceleradora/Incubadora
-  CORPORATION           // Empresa/Corporación
-  STARTUP               // Otra start-up
-  GOVERNMENT            // Gobierno/Institución
-  OTHER                 // Otro
+  VENTURE_CAPITAL // Fondo de inversión
+  ANGEL_INVESTOR // Inversor ángel
+  ACCELERATOR // Aceleradora/Incubadora
+  CORPORATION // Empresa/Corporación
+  STARTUP // Otra start-up
+  GOVERNMENT // Gobierno/Institución
+  OTHER // Otro
 }
 
 model User {
-  id              Int           @id @default(autoincrement())
-  email           String        @unique
-  password        String
-  role            Role
-  name            String?
-  description     String?
-  logo            String?
-  website         String?
-  startupInfo     StartupInfo?
-  companyInfo     CompanyInfo?
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  password    String
+  role        Role
+  name        String?
+  description String?
+  logo        String?
+  website     String?
+  startupInfo StartupInfo?
+  companyInfo CompanyInfo?
 
   @@map("User")
 }
 
 model StartupInfo {
-  id                    Int               @id @default(autoincrement())
-  userId                Int               @unique
-  foundedYear           Int?
-  industry              Industry?
-  technologies          TechnologyType[]  @default([])
-  pitchDeck             String?
-  demoVideo             String?
-  monthlyUsersAverage   Int?
-  revenue               String?
-  teamSize              Int?
-  visible               Boolean           @default(false)
-  github                String?
-  instagram             String?
-  linkedin              String?
-  facebook              String?
-  contactEmail          String?
-  embedding             Unsupported("vector(1024)")?
-  user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  members               Member[]
+  id                  Int                          @id @default(autoincrement())
+  userId              Int                          @unique
+  foundedYear         Int?
+  industry            Industry?
+  technologies        TechnologyType[]             @default([])
+  pitchDeck           String?
+  demoVideo           String?
+  monthlyUsersAverage Int?
+  revenue             String?
+  teamSize            Int?
+  visible             Boolean                      @default(false)
+  github              String?
+  instagram           String?
+  linkedin            String?
+  facebook            String?
+  contactEmail        String?
+  embedding           Unsupported("vector(1024)")?
+  user                User                         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  members             Member[]
 
   @@map("StartupInfo")
 }
 
 model Member {
-  id              Int         @id @default(autoincrement())
-  startupInfoId   Int
-  name            String
-  age             Int
-  position        String
-  profileImage    String?
-  university      String
-  startupInfo     StartupInfo @relation(fields: [startupInfoId], references: [id], onDelete: Cascade)
+  id            Int         @id @default(autoincrement())
+  startupInfoId Int
+  name          String
+  age           Int
+  position      String
+  profileImage  String?
+  university    String
+  startupInfo   StartupInfo @relation(fields: [startupInfoId], references: [id], onDelete: Cascade)
 
   @@map("Member")
 }
 
 model CompanyInfo {
-  id                        Int         @id @default(autoincrement())
-  userId                    Int         @unique
-  industry Industry?
-  size Int?
-  companyType CompanyType?
-  website String?
-  plan                      Plan        @default(FREE)
-  planStatus                PlanStatus  @default(INACTIVE)
-  stripeCustomerId          String?
-  stripeSubscriptionId      String?
-  searchesUsed              Int         @default(0)
-  searchesRemaining         Int         @default(3)
-  lastSearchReset           DateTime    @default(now())
-  planCancelledAt           DateTime?
-  planExpiresAt             DateTime?
-  user                      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                   Int          @id @default(autoincrement())
+  userId               Int          @unique
+  industry             Industry?
+  size                 Int?
+  companyType          CompanyType?
+  website              String?
+  plan                 Plan         @default(FREE)
+  planStatus           PlanStatus   @default(INACTIVE)
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  searchesUsed         Int          @default(0)
+  searchesRemaining    Int          @default(3)
+  lastSearchReset      DateTime     @default(now())
+  planCancelledAt      DateTime?
+  planExpiresAt        DateTime?
+  user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("CompanyInfo")
 }

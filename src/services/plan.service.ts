@@ -1,6 +1,7 @@
-import { CompanyInfo } from "../../generated/prisma/client";
+import { CompanyInfo, PlanStatus } from "../../generated/prisma/client";
 import { prisma } from "../config/prisma.client";
 import { AppError } from "../utils/appError";
+import { companyService } from "./company.service";
 
 class PlanService {
     private readonly PLAN_LIMITS = {
@@ -19,6 +20,17 @@ class PlanService {
                 throw new AppError('company not found', 404);
             }
 
+            if (company.planStatus === PlanStatus.CANCELLED && company.planExpiresAt) {
+                if (new Date() >= company.planExpiresAt) {
+                    await this.executePlanCancellation(companyId);
+                    return {
+                        canSearch: false,
+                        remaining: 0,
+                        reason: 'Your plan has expired. Please renew to continue searching.',
+                    };
+                }
+            }
+
             await this.resetMonthlySearchesIfNeeded(companyId);
 
             const remaining = company.searchesRemaining;
@@ -27,7 +39,7 @@ class PlanService {
                 return {
                     canSearch: false,
                     remaining: 0,
-                    reason: `you have reached your ${company.plan} plan limit. Updgrade to continue searching...`,
+                    reason: `you have reached your ${company.plan} plan limit. Upgrade to continue searching...`,
                 };
             }
 
@@ -99,12 +111,14 @@ class PlanService {
                 where: { id: companyId },
                 data: {
                     plan,
-                    planStatus: 'ACTIVE',
+                    planStatus: PlanStatus.ACTIVE,
                     searchesUsed: 0,
                     searchesRemaining: limit,
                     lastSearchReset: new Date(),
                     stripeCustomerId,
                     stripeSubscriptionId,
+                    planCancelledAt: null,
+                    planExpiresAt: null,
                 }
             });
 
@@ -115,17 +129,37 @@ class PlanService {
         }
     }
 
-    async cancelCompanyPlan(companyId: number): Promise<CompanyInfo> {
+    async schedulePlanCancellation(companyId: number, periodEnd: Date): Promise<CompanyInfo> {
+        try {
+            const company = await prisma.companyInfo.update({
+                where: { id: companyId },
+                data: {
+                    planStatus: PlanStatus.CANCELLED,
+                    planCancelledAt: new Date(),
+                    planExpiresAt: periodEnd,
+                }
+            });
+
+            return company;
+
+        } catch(error) {
+            throw error;
+        }
+    }
+
+    async executePlanCancellation(companyId: number): Promise<CompanyInfo> {
         try {
             const company = await prisma.companyInfo.update({
                 where: { id: companyId },
                 data: {
                     plan: 'FREE',
-                    planStatus: 'INACTIVE',
+                    planStatus: PlanStatus.INACTIVE,
                     searchesRemaining: this.PLAN_LIMITS.FREE,
                     searchesUsed: 0,
                     lastSearchReset: new Date(),
                     stripeSubscriptionId: null,
+                    planCancelledAt: null,
+                    planExpiresAt: null,
                 }
             });
 
@@ -136,10 +170,17 @@ class PlanService {
         }
     }
 
-    async getCompanyPlanInfo(companyId: number) {
+    async getCompanyPlanInfo(userId: number) {
         try {
-            const company = await prisma.companyInfo.findUnique({
-                where: { id: companyId },
+
+            const company: CompanyInfo | null = await companyService.getCompanyByUserId(userId);
+            
+            if (!company) {
+                throw new AppError('company does not exist', 404);
+            }
+
+            const info = await prisma.companyInfo.findUnique({
+                where: { id: company.id },
                 select: {
                     plan: true,
                     planStatus: true,
@@ -148,14 +189,16 @@ class PlanService {
                     lastSearchReset: true,
                     stripeCustomerId: true,
                     stripeSubscriptionId: true,
+                    planCancelledAt: true,
+                    planExpiresAt: true,
                 }
             });
 
-            if (!company) {
-                throw new AppError('company not found', 404);
+            if (!info) {
+                throw new AppError('company info not found', 404);
             }
 
-            return { ...company, limit: this.PLAN_LIMITS[company.plan] };
+            return { ...info, limit: this.PLAN_LIMITS[info.plan] };
 
         } catch(error) {
             throw error;
