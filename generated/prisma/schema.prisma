@@ -18,7 +18,7 @@ enum Role {
   COMPANY
 }
 
-enum Industry {
+enum IndustryType {
   FINTECH
   HEALTHTECH
   EDTECH
@@ -261,7 +261,7 @@ model StartupInfo {
   id                  Int                          @id @default(autoincrement())
   userId              Int                          @unique
   foundedYear         Int?
-  industry            Industry?
+  industry            IndustryType?
   technologies        TechnologyType[]             @default([])
   pitchDeck           String?
   demoVideo           String?
@@ -295,22 +295,22 @@ model Member {
 }
 
 model CompanyInfo {
-  id                   Int          @id @default(autoincrement())
-  userId               Int          @unique
-  industry             Industry?
+  id                   Int           @id @default(autoincrement())
+  userId               Int           @unique
+  industry             IndustryType?
   size                 Int?
   companyType          CompanyType?
   website              String?
-  plan                 Plan         @default(FREE)
-  planStatus           PlanStatus   @default(INACTIVE)
+  plan                 Plan          @default(FREE)
+  planStatus           PlanStatus    @default(INACTIVE)
   stripeCustomerId     String?
   stripeSubscriptionId String?
-  searchesUsed         Int          @default(0)
-  searchesRemaining    Int          @default(3)
-  lastSearchReset      DateTime     @default(now())
+  searchesUsed         Int           @default(0)
+  searchesRemaining    Int           @default(3)
+  lastSearchReset      DateTime      @default(now())
   planCancelledAt      DateTime?
   planExpiresAt        DateTime?
-  user                 User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                 User          @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("CompanyInfo")
 }

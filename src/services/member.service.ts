@@ -4,7 +4,6 @@ import { prisma } from "../config/prisma.client";
 import { Member } from "../../generated/prisma/client";
 import { AppError } from "../utils/appError";
 import { userService } from "./user.service";
-import { PositionType } from '../../generated/prisma/enums';
 
 class MemberService {
 

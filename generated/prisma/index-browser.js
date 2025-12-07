@@ -203,7 +203,7 @@ exports.Role = exports.$Enums.Role = {
   COMPANY: 'COMPANY'
 };
 
-exports.Industry = exports.$Enums.Industry = {
+exports.IndustryType = exports.$Enums.IndustryType = {
   FINTECH: 'FINTECH',
   HEALTHTECH: 'HEALTHTECH',
   EDTECH: 'EDTECH',

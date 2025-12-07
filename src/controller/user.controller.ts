@@ -1,10 +1,9 @@
 import type { NextFunction, Request, Response } from "express";
 import { userService } from "../services/user.service";
-import type { User } from "@prisma/client";
 import { UserInputUpdate } from "../interfaces/user.interface";
+import { User } from "../../generated/prisma";
 
 class UserController {
-    // implementar getMyBasicInfo, updateMyBasicInfo, changePassword, deleteMyAccount
 
     async getMyBasicInfo(req: Request, res: Response, next: NextFunction) {
         try {

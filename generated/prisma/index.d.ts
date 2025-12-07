@@ -51,7 +51,7 @@ export namespace $Enums {
 export type Role = (typeof Role)[keyof typeof Role]
 
 
-export const Industry: {
+export const IndustryType: {
   FINTECH: 'FINTECH',
   HEALTHTECH: 'HEALTHTECH',
   EDTECH: 'EDTECH',
@@ -84,7 +84,7 @@ export const Industry: {
   OTHER: 'OTHER'
 };
 
-export type Industry = (typeof Industry)[keyof typeof Industry]
+export type IndustryType = (typeof IndustryType)[keyof typeof IndustryType]
 
 
 export const TechnologyType: {
@@ -268,9 +268,9 @@ export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
 
-export type Industry = $Enums.Industry
+export type IndustryType = $Enums.IndustryType
 
-export const Industry: typeof $Enums.Industry
+export const IndustryType: typeof $Enums.IndustryType
 
 export type TechnologyType = $Enums.TechnologyType
 
@@ -2680,7 +2680,7 @@ export namespace Prisma {
     id: number | null
     userId: number | null
     foundedYear: number | null
-    industry: $Enums.Industry | null
+    industry: $Enums.IndustryType | null
     pitchDeck: string | null
     demoVideo: string | null
     monthlyUsersAverage: number | null
@@ -2698,7 +2698,7 @@ export namespace Prisma {
     id: number | null
     userId: number | null
     foundedYear: number | null
-    industry: $Enums.Industry | null
+    industry: $Enums.IndustryType | null
     pitchDeck: string | null
     demoVideo: string | null
     monthlyUsersAverage: number | null
@@ -2895,7 +2895,7 @@ export namespace Prisma {
     id: number
     userId: number
     foundedYear: number | null
-    industry: $Enums.Industry | null
+    industry: $Enums.IndustryType | null
     technologies: $Enums.TechnologyType[]
     pitchDeck: string | null
     demoVideo: string | null
@@ -3033,7 +3033,7 @@ export namespace Prisma {
       id: number
       userId: number
       foundedYear: number | null
-      industry: $Enums.Industry | null
+      industry: $Enums.IndustryType | null
       technologies: $Enums.TechnologyType[]
       pitchDeck: string | null
       demoVideo: string | null
@@ -3474,7 +3474,7 @@ export namespace Prisma {
     readonly id: FieldRef<"StartupInfo", 'Int'>
     readonly userId: FieldRef<"StartupInfo", 'Int'>
     readonly foundedYear: FieldRef<"StartupInfo", 'Int'>
-    readonly industry: FieldRef<"StartupInfo", 'Industry'>
+    readonly industry: FieldRef<"StartupInfo", 'IndustryType'>
     readonly technologies: FieldRef<"StartupInfo", 'TechnologyType[]'>
     readonly pitchDeck: FieldRef<"StartupInfo", 'String'>
     readonly demoVideo: FieldRef<"StartupInfo", 'String'>
@@ -5082,7 +5082,7 @@ export namespace Prisma {
   export type CompanyInfoMinAggregateOutputType = {
     id: number | null
     userId: number | null
-    industry: $Enums.Industry | null
+    industry: $Enums.IndustryType | null
     size: number | null
     companyType: $Enums.CompanyType | null
     website: string | null
@@ -5100,7 +5100,7 @@ export namespace Prisma {
   export type CompanyInfoMaxAggregateOutputType = {
     id: number | null
     userId: number | null
-    industry: $Enums.Industry | null
+    industry: $Enums.IndustryType | null
     size: number | null
     companyType: $Enums.CompanyType | null
     website: string | null
@@ -5295,7 +5295,7 @@ export namespace Prisma {
   export type CompanyInfoGroupByOutputType = {
     id: number
     userId: number
-    industry: $Enums.Industry | null
+    industry: $Enums.IndustryType | null
     size: number | null
     companyType: $Enums.CompanyType | null
     website: string | null
@@ -5423,7 +5423,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       userId: number
-      industry: $Enums.Industry | null
+      industry: $Enums.IndustryType | null
       size: number | null
       companyType: $Enums.CompanyType | null
       website: string | null
@@ -5862,7 +5862,7 @@ export namespace Prisma {
   interface CompanyInfoFieldRefs {
     readonly id: FieldRef<"CompanyInfo", 'Int'>
     readonly userId: FieldRef<"CompanyInfo", 'Int'>
-    readonly industry: FieldRef<"CompanyInfo", 'Industry'>
+    readonly industry: FieldRef<"CompanyInfo", 'IndustryType'>
     readonly size: FieldRef<"CompanyInfo", 'Int'>
     readonly companyType: FieldRef<"CompanyInfo", 'CompanyType'>
     readonly website: FieldRef<"CompanyInfo", 'String'>
@@ -7423,16 +7423,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Industry'
+   * Reference to a field of type 'IndustryType'
    */
-  export type EnumIndustryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Industry'>
+  export type EnumIndustryTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IndustryType'>
     
 
 
   /**
-   * Reference to a field of type 'Industry[]'
+   * Reference to a field of type 'IndustryType[]'
    */
-  export type ListEnumIndustryFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Industry[]'>
+  export type ListEnumIndustryTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IndustryType[]'>
     
 
 
@@ -7612,7 +7612,7 @@ export namespace Prisma {
     id?: IntFilter<"StartupInfo"> | number
     userId?: IntFilter<"StartupInfo"> | number
     foundedYear?: IntNullableFilter<"StartupInfo"> | number | null
-    industry?: EnumIndustryNullableFilter<"StartupInfo"> | $Enums.Industry | null
+    industry?: EnumIndustryTypeNullableFilter<"StartupInfo"> | $Enums.IndustryType | null
     technologies?: EnumTechnologyTypeNullableListFilter<"StartupInfo">
     pitchDeck?: StringNullableFilter<"StartupInfo"> | string | null
     demoVideo?: StringNullableFilter<"StartupInfo"> | string | null
@@ -7657,7 +7657,7 @@ export namespace Prisma {
     OR?: StartupInfoWhereInput[]
     NOT?: StartupInfoWhereInput | StartupInfoWhereInput[]
     foundedYear?: IntNullableFilter<"StartupInfo"> | number | null
-    industry?: EnumIndustryNullableFilter<"StartupInfo"> | $Enums.Industry | null
+    industry?: EnumIndustryTypeNullableFilter<"StartupInfo"> | $Enums.IndustryType | null
     technologies?: EnumTechnologyTypeNullableListFilter<"StartupInfo">
     pitchDeck?: StringNullableFilter<"StartupInfo"> | string | null
     demoVideo?: StringNullableFilter<"StartupInfo"> | string | null
@@ -7705,7 +7705,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"StartupInfo"> | number
     userId?: IntWithAggregatesFilter<"StartupInfo"> | number
     foundedYear?: IntNullableWithAggregatesFilter<"StartupInfo"> | number | null
-    industry?: EnumIndustryNullableWithAggregatesFilter<"StartupInfo"> | $Enums.Industry | null
+    industry?: EnumIndustryTypeNullableWithAggregatesFilter<"StartupInfo"> | $Enums.IndustryType | null
     technologies?: EnumTechnologyTypeNullableListFilter<"StartupInfo">
     pitchDeck?: StringNullableWithAggregatesFilter<"StartupInfo"> | string | null
     demoVideo?: StringNullableWithAggregatesFilter<"StartupInfo"> | string | null
@@ -7793,7 +7793,7 @@ export namespace Prisma {
     NOT?: CompanyInfoWhereInput | CompanyInfoWhereInput[]
     id?: IntFilter<"CompanyInfo"> | number
     userId?: IntFilter<"CompanyInfo"> | number
-    industry?: EnumIndustryNullableFilter<"CompanyInfo"> | $Enums.Industry | null
+    industry?: EnumIndustryTypeNullableFilter<"CompanyInfo"> | $Enums.IndustryType | null
     size?: IntNullableFilter<"CompanyInfo"> | number | null
     companyType?: EnumCompanyTypeNullableFilter<"CompanyInfo"> | $Enums.CompanyType | null
     website?: StringNullableFilter<"CompanyInfo"> | string | null
@@ -7834,7 +7834,7 @@ export namespace Prisma {
     AND?: CompanyInfoWhereInput | CompanyInfoWhereInput[]
     OR?: CompanyInfoWhereInput[]
     NOT?: CompanyInfoWhereInput | CompanyInfoWhereInput[]
-    industry?: EnumIndustryNullableFilter<"CompanyInfo"> | $Enums.Industry | null
+    industry?: EnumIndustryTypeNullableFilter<"CompanyInfo"> | $Enums.IndustryType | null
     size?: IntNullableFilter<"CompanyInfo"> | number | null
     companyType?: EnumCompanyTypeNullableFilter<"CompanyInfo"> | $Enums.CompanyType | null
     website?: StringNullableFilter<"CompanyInfo"> | string | null
@@ -7879,7 +7879,7 @@ export namespace Prisma {
     NOT?: CompanyInfoScalarWhereWithAggregatesInput | CompanyInfoScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"CompanyInfo"> | number
     userId?: IntWithAggregatesFilter<"CompanyInfo"> | number
-    industry?: EnumIndustryNullableWithAggregatesFilter<"CompanyInfo"> | $Enums.Industry | null
+    industry?: EnumIndustryTypeNullableWithAggregatesFilter<"CompanyInfo"> | $Enums.IndustryType | null
     size?: IntNullableWithAggregatesFilter<"CompanyInfo"> | number | null
     companyType?: EnumCompanyTypeNullableWithAggregatesFilter<"CompanyInfo"> | $Enums.CompanyType | null
     website?: StringNullableWithAggregatesFilter<"CompanyInfo"> | string | null
@@ -8020,7 +8020,7 @@ export namespace Prisma {
 
   export type StartupInfoCreateInput = {
     foundedYear?: number | null
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     technologies?: StartupInfoCreatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: string | null
     demoVideo?: string | null
@@ -8041,7 +8041,7 @@ export namespace Prisma {
     id?: number
     userId: number
     foundedYear?: number | null
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     technologies?: StartupInfoCreatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: string | null
     demoVideo?: string | null
@@ -8059,7 +8059,7 @@ export namespace Prisma {
 
   export type StartupInfoUpdateInput = {
     foundedYear?: NullableIntFieldUpdateOperationsInput | number | null
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     technologies?: StartupInfoUpdatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: NullableStringFieldUpdateOperationsInput | string | null
     demoVideo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8080,7 +8080,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     foundedYear?: NullableIntFieldUpdateOperationsInput | number | null
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     technologies?: StartupInfoUpdatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: NullableStringFieldUpdateOperationsInput | string | null
     demoVideo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8100,7 +8100,7 @@ export namespace Prisma {
     id?: number
     userId: number
     foundedYear?: number | null
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     technologies?: StartupInfoCreatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: string | null
     demoVideo?: string | null
@@ -8117,7 +8117,7 @@ export namespace Prisma {
 
   export type StartupInfoUpdateManyMutationInput = {
     foundedYear?: NullableIntFieldUpdateOperationsInput | number | null
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     technologies?: StartupInfoUpdatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: NullableStringFieldUpdateOperationsInput | string | null
     demoVideo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8136,7 +8136,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     foundedYear?: NullableIntFieldUpdateOperationsInput | number | null
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     technologies?: StartupInfoUpdatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: NullableStringFieldUpdateOperationsInput | string | null
     demoVideo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8218,7 +8218,7 @@ export namespace Prisma {
   }
 
   export type CompanyInfoCreateInput = {
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
     website?: string | null
@@ -8237,7 +8237,7 @@ export namespace Prisma {
   export type CompanyInfoUncheckedCreateInput = {
     id?: number
     userId: number
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
     website?: string | null
@@ -8253,7 +8253,7 @@ export namespace Prisma {
   }
 
   export type CompanyInfoUpdateInput = {
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8272,7 +8272,7 @@ export namespace Prisma {
   export type CompanyInfoUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8290,7 +8290,7 @@ export namespace Prisma {
   export type CompanyInfoCreateManyInput = {
     id?: number
     userId: number
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
     website?: string | null
@@ -8306,7 +8306,7 @@ export namespace Prisma {
   }
 
   export type CompanyInfoUpdateManyMutationInput = {
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8324,7 +8324,7 @@ export namespace Prisma {
   export type CompanyInfoUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8558,11 +8558,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type EnumIndustryNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.Industry | EnumIndustryFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Industry[] | ListEnumIndustryFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Industry[] | ListEnumIndustryFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumIndustryNullableFilter<$PrismaModel> | $Enums.Industry | null
+  export type EnumIndustryTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.IndustryType | EnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.IndustryType[] | ListEnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.IndustryType[] | ListEnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumIndustryTypeNullableFilter<$PrismaModel> | $Enums.IndustryType | null
   }
 
   export type EnumTechnologyTypeNullableListFilter<$PrismaModel = never> = {
@@ -8680,14 +8680,14 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type EnumIndustryNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Industry | EnumIndustryFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Industry[] | ListEnumIndustryFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Industry[] | ListEnumIndustryFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumIndustryNullableWithAggregatesFilter<$PrismaModel> | $Enums.Industry | null
+  export type EnumIndustryTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IndustryType | EnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.IndustryType[] | ListEnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.IndustryType[] | ListEnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumIndustryTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.IndustryType | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumIndustryNullableFilter<$PrismaModel>
-    _max?: NestedEnumIndustryNullableFilter<$PrismaModel>
+    _min?: NestedEnumIndustryTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumIndustryTypeNullableFilter<$PrismaModel>
   }
 
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -9050,8 +9050,8 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type NullableEnumIndustryFieldUpdateOperationsInput = {
-    set?: $Enums.Industry | null
+  export type NullableEnumIndustryTypeFieldUpdateOperationsInput = {
+    set?: $Enums.IndustryType | null
   }
 
   export type StartupInfoUpdatetechnologiesInput = {
@@ -9275,11 +9275,11 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumIndustryNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.Industry | EnumIndustryFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Industry[] | ListEnumIndustryFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Industry[] | ListEnumIndustryFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumIndustryNullableFilter<$PrismaModel> | $Enums.Industry | null
+  export type NestedEnumIndustryTypeNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.IndustryType | EnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.IndustryType[] | ListEnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.IndustryType[] | ListEnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumIndustryTypeNullableFilter<$PrismaModel> | $Enums.IndustryType | null
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -9314,14 +9314,14 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumIndustryNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Industry | EnumIndustryFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Industry[] | ListEnumIndustryFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Industry[] | ListEnumIndustryFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumIndustryNullableWithAggregatesFilter<$PrismaModel> | $Enums.Industry | null
+  export type NestedEnumIndustryTypeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IndustryType | EnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    in?: $Enums.IndustryType[] | ListEnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.IndustryType[] | ListEnumIndustryTypeFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumIndustryTypeNullableWithAggregatesFilter<$PrismaModel> | $Enums.IndustryType | null
     _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumIndustryNullableFilter<$PrismaModel>
-    _max?: NestedEnumIndustryNullableFilter<$PrismaModel>
+    _min?: NestedEnumIndustryTypeNullableFilter<$PrismaModel>
+    _max?: NestedEnumIndustryTypeNullableFilter<$PrismaModel>
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -9435,7 +9435,7 @@ export namespace Prisma {
 
   export type StartupInfoCreateWithoutUserInput = {
     foundedYear?: number | null
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     technologies?: StartupInfoCreatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: string | null
     demoVideo?: string | null
@@ -9454,7 +9454,7 @@ export namespace Prisma {
   export type StartupInfoUncheckedCreateWithoutUserInput = {
     id?: number
     foundedYear?: number | null
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     technologies?: StartupInfoCreatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: string | null
     demoVideo?: string | null
@@ -9476,7 +9476,7 @@ export namespace Prisma {
   }
 
   export type CompanyInfoCreateWithoutUserInput = {
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
     website?: string | null
@@ -9493,7 +9493,7 @@ export namespace Prisma {
 
   export type CompanyInfoUncheckedCreateWithoutUserInput = {
     id?: number
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
     website?: string | null
@@ -9526,7 +9526,7 @@ export namespace Prisma {
 
   export type StartupInfoUpdateWithoutUserInput = {
     foundedYear?: NullableIntFieldUpdateOperationsInput | number | null
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     technologies?: StartupInfoUpdatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: NullableStringFieldUpdateOperationsInput | string | null
     demoVideo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9545,7 +9545,7 @@ export namespace Prisma {
   export type StartupInfoUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
     foundedYear?: NullableIntFieldUpdateOperationsInput | number | null
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     technologies?: StartupInfoUpdatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: NullableStringFieldUpdateOperationsInput | string | null
     demoVideo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9573,7 +9573,7 @@ export namespace Prisma {
   }
 
   export type CompanyInfoUpdateWithoutUserInput = {
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9590,7 +9590,7 @@ export namespace Prisma {
 
   export type CompanyInfoUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
     website?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9725,7 +9725,7 @@ export namespace Prisma {
 
   export type StartupInfoCreateWithoutMembersInput = {
     foundedYear?: number | null
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     technologies?: StartupInfoCreatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: string | null
     demoVideo?: string | null
@@ -9745,7 +9745,7 @@ export namespace Prisma {
     id?: number
     userId: number
     foundedYear?: number | null
-    industry?: $Enums.Industry | null
+    industry?: $Enums.IndustryType | null
     technologies?: StartupInfoCreatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: string | null
     demoVideo?: string | null
@@ -9778,7 +9778,7 @@ export namespace Prisma {
 
   export type StartupInfoUpdateWithoutMembersInput = {
     foundedYear?: NullableIntFieldUpdateOperationsInput | number | null
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     technologies?: StartupInfoUpdatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: NullableStringFieldUpdateOperationsInput | string | null
     demoVideo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9798,7 +9798,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     userId?: IntFieldUpdateOperationsInput | number
     foundedYear?: NullableIntFieldUpdateOperationsInput | number | null
-    industry?: NullableEnumIndustryFieldUpdateOperationsInput | $Enums.Industry | null
+    industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     technologies?: StartupInfoUpdatetechnologiesInput | $Enums.TechnologyType[]
     pitchDeck?: NullableStringFieldUpdateOperationsInput | string | null
     demoVideo?: NullableStringFieldUpdateOperationsInput | string | null

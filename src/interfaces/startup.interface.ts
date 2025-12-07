@@ -1,5 +1,5 @@
 import type { IndustryType, TechnologyType } from "@prisma/client";
-import { Member } from '../../generated/prisma/browser';
+
 
 
 export interface StartupInfoInputUpdate {

@@ -18,7 +18,7 @@ enum Role {
   COMPANY
 }
 
-enum Industry {
+enum IndustryType {
   FINTECH
   HEALTHTECH
   EDTECH
@@ -261,7 +261,7 @@ model StartupInfo {
   id                    Int               @id @default(autoincrement())
   userId                Int               @unique
   foundedYear           Int?
-  industry              Industry?
+  industry              IndustryType?
   technologies          TechnologyType[]  @default([])
   pitchDeck             String?
   demoVideo             String?
@@ -297,7 +297,7 @@ model Member {
 model CompanyInfo {
   id                        Int         @id @default(autoincrement())
   userId                    Int         @unique
-  industry Industry?
+  industry IndustryType?
   size Int?
   companyType CompanyType?
   website String?

@@ -1,4 +1,4 @@
-import { PositionType } from "../../generated/prisma/enums";
+import { PositionType } from "@prisma/client";
 
 export interface MemberInput {
     name: string;

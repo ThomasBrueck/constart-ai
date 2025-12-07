@@ -1,4 +1,4 @@
-import { CompanyType, IndustryType } from "../../generated/prisma/enums";
+import { IndustryType, CompanyType } from "../../generated/prisma";
 
 export interface CompanyInputUpdate {
     industry: IndustryType;
