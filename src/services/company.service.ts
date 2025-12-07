@@ -37,7 +37,6 @@ class CompanyService {
                     industry: data.industry,
                     size: data.size,
                     companyType: data.companyType,
-                    website: data.website,
                 }
             });
 

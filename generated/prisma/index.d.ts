@@ -5085,7 +5085,6 @@ export namespace Prisma {
     industry: $Enums.IndustryType | null
     size: number | null
     companyType: $Enums.CompanyType | null
-    website: string | null
     plan: $Enums.Plan | null
     planStatus: $Enums.PlanStatus | null
     stripeCustomerId: string | null
@@ -5103,7 +5102,6 @@ export namespace Prisma {
     industry: $Enums.IndustryType | null
     size: number | null
     companyType: $Enums.CompanyType | null
-    website: string | null
     plan: $Enums.Plan | null
     planStatus: $Enums.PlanStatus | null
     stripeCustomerId: string | null
@@ -5121,7 +5119,6 @@ export namespace Prisma {
     industry: number
     size: number
     companyType: number
-    website: number
     plan: number
     planStatus: number
     stripeCustomerId: number
@@ -5157,7 +5154,6 @@ export namespace Prisma {
     industry?: true
     size?: true
     companyType?: true
-    website?: true
     plan?: true
     planStatus?: true
     stripeCustomerId?: true
@@ -5175,7 +5171,6 @@ export namespace Prisma {
     industry?: true
     size?: true
     companyType?: true
-    website?: true
     plan?: true
     planStatus?: true
     stripeCustomerId?: true
@@ -5193,7 +5188,6 @@ export namespace Prisma {
     industry?: true
     size?: true
     companyType?: true
-    website?: true
     plan?: true
     planStatus?: true
     stripeCustomerId?: true
@@ -5298,7 +5292,6 @@ export namespace Prisma {
     industry: $Enums.IndustryType | null
     size: number | null
     companyType: $Enums.CompanyType | null
-    website: string | null
     plan: $Enums.Plan
     planStatus: $Enums.PlanStatus
     stripeCustomerId: string | null
@@ -5335,7 +5328,6 @@ export namespace Prisma {
     industry?: boolean
     size?: boolean
     companyType?: boolean
-    website?: boolean
     plan?: boolean
     planStatus?: boolean
     stripeCustomerId?: boolean
@@ -5354,7 +5346,6 @@ export namespace Prisma {
     industry?: boolean
     size?: boolean
     companyType?: boolean
-    website?: boolean
     plan?: boolean
     planStatus?: boolean
     stripeCustomerId?: boolean
@@ -5373,7 +5364,6 @@ export namespace Prisma {
     industry?: boolean
     size?: boolean
     companyType?: boolean
-    website?: boolean
     plan?: boolean
     planStatus?: boolean
     stripeCustomerId?: boolean
@@ -5392,7 +5382,6 @@ export namespace Prisma {
     industry?: boolean
     size?: boolean
     companyType?: boolean
-    website?: boolean
     plan?: boolean
     planStatus?: boolean
     stripeCustomerId?: boolean
@@ -5404,7 +5393,7 @@ export namespace Prisma {
     planExpiresAt?: boolean
   }
 
-  export type CompanyInfoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "industry" | "size" | "companyType" | "website" | "plan" | "planStatus" | "stripeCustomerId" | "stripeSubscriptionId" | "searchesUsed" | "searchesRemaining" | "lastSearchReset" | "planCancelledAt" | "planExpiresAt", ExtArgs["result"]["companyInfo"]>
+  export type CompanyInfoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "industry" | "size" | "companyType" | "plan" | "planStatus" | "stripeCustomerId" | "stripeSubscriptionId" | "searchesUsed" | "searchesRemaining" | "lastSearchReset" | "planCancelledAt" | "planExpiresAt", ExtArgs["result"]["companyInfo"]>
   export type CompanyInfoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -5426,7 +5415,6 @@ export namespace Prisma {
       industry: $Enums.IndustryType | null
       size: number | null
       companyType: $Enums.CompanyType | null
-      website: string | null
       plan: $Enums.Plan
       planStatus: $Enums.PlanStatus
       stripeCustomerId: string | null
@@ -5865,7 +5853,6 @@ export namespace Prisma {
     readonly industry: FieldRef<"CompanyInfo", 'IndustryType'>
     readonly size: FieldRef<"CompanyInfo", 'Int'>
     readonly companyType: FieldRef<"CompanyInfo", 'CompanyType'>
-    readonly website: FieldRef<"CompanyInfo", 'String'>
     readonly plan: FieldRef<"CompanyInfo", 'Plan'>
     readonly planStatus: FieldRef<"CompanyInfo", 'PlanStatus'>
     readonly stripeCustomerId: FieldRef<"CompanyInfo", 'String'>
@@ -7327,7 +7314,6 @@ export namespace Prisma {
     industry: 'industry',
     size: 'size',
     companyType: 'companyType',
-    website: 'website',
     plan: 'plan',
     planStatus: 'planStatus',
     stripeCustomerId: 'stripeCustomerId',
@@ -7796,7 +7782,6 @@ export namespace Prisma {
     industry?: EnumIndustryTypeNullableFilter<"CompanyInfo"> | $Enums.IndustryType | null
     size?: IntNullableFilter<"CompanyInfo"> | number | null
     companyType?: EnumCompanyTypeNullableFilter<"CompanyInfo"> | $Enums.CompanyType | null
-    website?: StringNullableFilter<"CompanyInfo"> | string | null
     plan?: EnumPlanFilter<"CompanyInfo"> | $Enums.Plan
     planStatus?: EnumPlanStatusFilter<"CompanyInfo"> | $Enums.PlanStatus
     stripeCustomerId?: StringNullableFilter<"CompanyInfo"> | string | null
@@ -7815,7 +7800,6 @@ export namespace Prisma {
     industry?: SortOrderInput | SortOrder
     size?: SortOrderInput | SortOrder
     companyType?: SortOrderInput | SortOrder
-    website?: SortOrderInput | SortOrder
     plan?: SortOrder
     planStatus?: SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
@@ -7837,7 +7821,6 @@ export namespace Prisma {
     industry?: EnumIndustryTypeNullableFilter<"CompanyInfo"> | $Enums.IndustryType | null
     size?: IntNullableFilter<"CompanyInfo"> | number | null
     companyType?: EnumCompanyTypeNullableFilter<"CompanyInfo"> | $Enums.CompanyType | null
-    website?: StringNullableFilter<"CompanyInfo"> | string | null
     plan?: EnumPlanFilter<"CompanyInfo"> | $Enums.Plan
     planStatus?: EnumPlanStatusFilter<"CompanyInfo"> | $Enums.PlanStatus
     stripeCustomerId?: StringNullableFilter<"CompanyInfo"> | string | null
@@ -7856,7 +7839,6 @@ export namespace Prisma {
     industry?: SortOrderInput | SortOrder
     size?: SortOrderInput | SortOrder
     companyType?: SortOrderInput | SortOrder
-    website?: SortOrderInput | SortOrder
     plan?: SortOrder
     planStatus?: SortOrder
     stripeCustomerId?: SortOrderInput | SortOrder
@@ -7882,7 +7864,6 @@ export namespace Prisma {
     industry?: EnumIndustryTypeNullableWithAggregatesFilter<"CompanyInfo"> | $Enums.IndustryType | null
     size?: IntNullableWithAggregatesFilter<"CompanyInfo"> | number | null
     companyType?: EnumCompanyTypeNullableWithAggregatesFilter<"CompanyInfo"> | $Enums.CompanyType | null
-    website?: StringNullableWithAggregatesFilter<"CompanyInfo"> | string | null
     plan?: EnumPlanWithAggregatesFilter<"CompanyInfo"> | $Enums.Plan
     planStatus?: EnumPlanStatusWithAggregatesFilter<"CompanyInfo"> | $Enums.PlanStatus
     stripeCustomerId?: StringNullableWithAggregatesFilter<"CompanyInfo"> | string | null
@@ -8221,7 +8202,6 @@ export namespace Prisma {
     industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
-    website?: string | null
     plan?: $Enums.Plan
     planStatus?: $Enums.PlanStatus
     stripeCustomerId?: string | null
@@ -8240,7 +8220,6 @@ export namespace Prisma {
     industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
-    website?: string | null
     plan?: $Enums.Plan
     planStatus?: $Enums.PlanStatus
     stripeCustomerId?: string | null
@@ -8256,7 +8235,6 @@ export namespace Prisma {
     industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     planStatus?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8275,7 +8253,6 @@ export namespace Prisma {
     industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     planStatus?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8293,7 +8270,6 @@ export namespace Prisma {
     industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
-    website?: string | null
     plan?: $Enums.Plan
     planStatus?: $Enums.PlanStatus
     stripeCustomerId?: string | null
@@ -8309,7 +8285,6 @@ export namespace Prisma {
     industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     planStatus?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8327,7 +8302,6 @@ export namespace Prisma {
     industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     planStatus?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -8794,7 +8768,6 @@ export namespace Prisma {
     industry?: SortOrder
     size?: SortOrder
     companyType?: SortOrder
-    website?: SortOrder
     plan?: SortOrder
     planStatus?: SortOrder
     stripeCustomerId?: SortOrder
@@ -8820,7 +8793,6 @@ export namespace Prisma {
     industry?: SortOrder
     size?: SortOrder
     companyType?: SortOrder
-    website?: SortOrder
     plan?: SortOrder
     planStatus?: SortOrder
     stripeCustomerId?: SortOrder
@@ -8838,7 +8810,6 @@ export namespace Prisma {
     industry?: SortOrder
     size?: SortOrder
     companyType?: SortOrder
-    website?: SortOrder
     plan?: SortOrder
     planStatus?: SortOrder
     stripeCustomerId?: SortOrder
@@ -9479,7 +9450,6 @@ export namespace Prisma {
     industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
-    website?: string | null
     plan?: $Enums.Plan
     planStatus?: $Enums.PlanStatus
     stripeCustomerId?: string | null
@@ -9496,7 +9466,6 @@ export namespace Prisma {
     industry?: $Enums.IndustryType | null
     size?: number | null
     companyType?: $Enums.CompanyType | null
-    website?: string | null
     plan?: $Enums.Plan
     planStatus?: $Enums.PlanStatus
     stripeCustomerId?: string | null
@@ -9576,7 +9545,6 @@ export namespace Prisma {
     industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     planStatus?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9593,7 +9561,6 @@ export namespace Prisma {
     industry?: NullableEnumIndustryTypeFieldUpdateOperationsInput | $Enums.IndustryType | null
     size?: NullableIntFieldUpdateOperationsInput | number | null
     companyType?: NullableEnumCompanyTypeFieldUpdateOperationsInput | $Enums.CompanyType | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
     plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
     planStatus?: EnumPlanStatusFieldUpdateOperationsInput | $Enums.PlanStatus
     stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null

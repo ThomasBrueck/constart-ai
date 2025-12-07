@@ -4,15 +4,11 @@ import { planService } from "./plan.service";
 import { prisma } from "../config/prisma.client";
 import { PlanStatus } from "../../generated/prisma/client";
 
-interface StripeSubscriptionWithPeriod extends Stripe.Subscription {
-    current_period_end: number;
-}
-
 class StripeService {
     private stripe: Stripe;
     private readonly PLAN_PRICES = {
-        BASIC: 2999, // $9.99 en centavos
-        PRO: 9999,  // $29.99 en centavos
+        BASIC: 2999,
+        PRO: 9999,
     };
 
     constructor() {
@@ -89,7 +85,14 @@ class StripeService {
             const subscription = await this.stripe.subscriptions.retrieve(company.stripeSubscriptionId);
 
             if (subscription.cancel_at_period_end) {
-                return null;
+                const periodEndTimestamp = subscription.items?.data?.[0]?.current_period_end;
+                
+                if (periodEndTimestamp && typeof periodEndTimestamp === 'number') {
+                    const periodEnd = new Date(periodEndTimestamp * 1000);
+                    await planService.schedulePlanCancellation(companyId, periodEnd);
+                }
+                
+                return subscription;
             }
 
             const updatedSubscription = await this.stripe.subscriptions.update(
@@ -97,19 +100,13 @@ class StripeService {
                 { cancel_at_period_end: true }
             );
 
-            // Validar que current_period_end exista y sea válido
-            const currentPeriodEnd = (updatedSubscription as any).current_period_end;
-            if (!currentPeriodEnd || typeof currentPeriodEnd !== 'number') {
-                throw new AppError('Invalid subscription period end', 500);
-            }
-
-            const periodEnd = new Date(currentPeriodEnd * 1000);
+            const periodEndTimestamp = updatedSubscription.items?.data?.[0]?.current_period_end;
             
-            // Validar que la fecha sea válida
-            if (isNaN(periodEnd.getTime())) {
-                throw new AppError('Invalid date conversion', 500);
+            if (!periodEndTimestamp || typeof periodEndTimestamp !== 'number') {
+                throw new AppError('Could not determine subscription end date', 500);
             }
 
+            const periodEnd = new Date(periodEndTimestamp * 1000);
             await planService.schedulePlanCancellation(companyId, periodEnd);
 
             return updatedSubscription;
@@ -140,7 +137,6 @@ class StripeService {
         });
 
         if (existingEvent) {
-            console.log(`Webhook ${event.id} already processed`);
             return;
         }
 
@@ -192,12 +188,10 @@ class StripeService {
         const subscriptionId = session.subscription as string;
 
         if (!companyId || !plan) {
-            console.error('Missing metadata in checkout session');
             return;
         }
 
         await planService.updateCompanyPlan(companyId, plan, customerId, subscriptionId);
-        console.log(`Plan updated for company ${companyId}: ${plan}`);
     }
 
     private async handleSubscriptionUpdated(subscription: Stripe.Subscription): Promise<void> {
@@ -206,27 +200,18 @@ class StripeService {
         });
 
         if (!company) {
-            console.error('Company not found for customer:', subscription.customer);
             return;
         }
 
         if (subscription.cancel_at_period_end && subscription.status === 'active') {
-            const currentPeriodEnd = (subscription as any).current_period_end;
+            const periodEndTimestamp = subscription.items?.data?.[0]?.current_period_end;
             
-            if (!currentPeriodEnd || typeof currentPeriodEnd !== 'number') {
-                console.error('Invalid current_period_end for subscription');
+            if (!periodEndTimestamp || typeof periodEndTimestamp !== 'number') {
                 return;
             }
 
-            const periodEnd = new Date(currentPeriodEnd * 1000);
-            
-            if (isNaN(periodEnd.getTime())) {
-                console.error('Invalid date conversion for subscription');
-                return;
-            }
-
+            const periodEnd = new Date(periodEndTimestamp * 1000);
             await planService.schedulePlanCancellation(company.id, periodEnd);
-            console.log(`Cancellation scheduled for company ${company.id} at ${periodEnd}`);
             return;
         }
 
@@ -248,7 +233,6 @@ class StripeService {
         });
 
         if (!company) {
-            console.error('Company not found');
             return;
         }
 

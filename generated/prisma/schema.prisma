@@ -300,7 +300,6 @@ model CompanyInfo {
   industry             IndustryType?
   size                 Int?
   companyType          CompanyType?
-  website              String?
   plan                 Plan          @default(FREE)
   planStatus           PlanStatus    @default(INACTIVE)
   stripeCustomerId     String?

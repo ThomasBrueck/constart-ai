@@ -140,13 +140,13 @@ class StripeController {
                 });
             }
 
-            const sub = subscription as unknown as StripeSubscriptionWithPeriod;
+            const periodEndTimestamp = subscription.items?.data?.[0]?.current_period_end;
 
             return res.status(200).json({
                 message: 'subscription will be canceled at the end of the billing period',
                 data: {
                     cancelAt: subscription.cancel_at,
-                    currentPeriodEnd: sub.current_period_end,
+                    currentPeriodEnd: periodEndTimestamp,
                 },
             });
 

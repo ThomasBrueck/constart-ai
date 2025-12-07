@@ -166,7 +166,6 @@ exports.Prisma.CompanyInfoScalarFieldEnum = {
   industry: 'industry',
   size: 'size',
   companyType: 'companyType',
-  website: 'website',
   plan: 'plan',
   planStatus: 'planStatus',
   stripeCustomerId: 'stripeCustomerId',

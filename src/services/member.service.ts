@@ -1,9 +1,7 @@
-import { StartupInfo } from "@prisma/client";
 import { MemberInput } from "../interfaces/member.interface";
 import { prisma } from "../config/prisma.client";
 import { Member } from "../../generated/prisma/client";
 import { AppError } from "../utils/appError";
-import { userService } from "./user.service";
 
 class MemberService {
 
