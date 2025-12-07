@@ -42,7 +42,7 @@ export type UserMinAggregateOutputType = {
   name: string | null
   description: string | null
   logo: string | null
-  webiste: string | null
+  website: string | null
   createdAt: Date | null
   updateAt: Date | null
 }
@@ -55,7 +55,7 @@ export type UserMaxAggregateOutputType = {
   name: string | null
   description: string | null
   logo: string | null
-  webiste: string | null
+  website: string | null
   createdAt: Date | null
   updateAt: Date | null
 }
@@ -68,7 +68,7 @@ export type UserCountAggregateOutputType = {
   name: number
   description: number
   logo: number
-  webiste: number
+  website: number
   createdAt: number
   updateAt: number
   _all: number
@@ -91,7 +91,7 @@ export type UserMinAggregateInputType = {
   name?: true
   description?: true
   logo?: true
-  webiste?: true
+  website?: true
   createdAt?: true
   updateAt?: true
 }
@@ -104,7 +104,7 @@ export type UserMaxAggregateInputType = {
   name?: true
   description?: true
   logo?: true
-  webiste?: true
+  website?: true
   createdAt?: true
   updateAt?: true
 }
@@ -117,7 +117,7 @@ export type UserCountAggregateInputType = {
   name?: true
   description?: true
   logo?: true
-  webiste?: true
+  website?: true
   createdAt?: true
   updateAt?: true
   _all?: true
@@ -217,7 +217,7 @@ export type UserGroupByOutputType = {
   name: string
   description: string | null
   logo: string | null
-  webiste: string | null
+  website: string | null
   createdAt: Date
   updateAt: Date
   _count: UserCountAggregateOutputType | null
@@ -253,7 +253,7 @@ export type UserWhereInput = {
   name?: Prisma.StringFilter<"User"> | string
   description?: Prisma.StringNullableFilter<"User"> | string | null
   logo?: Prisma.StringNullableFilter<"User"> | string | null
-  webiste?: Prisma.StringNullableFilter<"User"> | string | null
+  website?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updateAt?: Prisma.DateTimeFilter<"User"> | Date | string
   startupInfo?: Prisma.XOR<Prisma.StartupInfoNullableScalarRelationFilter, Prisma.StartupInfoWhereInput> | null
@@ -268,7 +268,7 @@ export type UserOrderByWithRelationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   logo?: Prisma.SortOrderInput | Prisma.SortOrder
-  webiste?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updateAt?: Prisma.SortOrder
   startupInfo?: Prisma.StartupInfoOrderByWithRelationInput
@@ -286,7 +286,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   role?: Prisma.EnumUserRoleFilter<"User"> | $Enums.UserRole
   description?: Prisma.StringNullableFilter<"User"> | string | null
   logo?: Prisma.StringNullableFilter<"User"> | string | null
-  webiste?: Prisma.StringNullableFilter<"User"> | string | null
+  website?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updateAt?: Prisma.DateTimeFilter<"User"> | Date | string
   startupInfo?: Prisma.XOR<Prisma.StartupInfoNullableScalarRelationFilter, Prisma.StartupInfoWhereInput> | null
@@ -301,7 +301,7 @@ export type UserOrderByWithAggregationInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   logo?: Prisma.SortOrderInput | Prisma.SortOrder
-  webiste?: Prisma.SortOrderInput | Prisma.SortOrder
+  website?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updateAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
@@ -322,7 +322,7 @@ export type UserScalarWhereWithAggregatesInput = {
   name?: Prisma.StringWithAggregatesFilter<"User"> | string
   description?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   logo?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
-  webiste?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  website?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updateAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -334,7 +334,7 @@ export type UserCreateInput = {
   name: string
   description?: string | null
   logo?: string | null
-  webiste?: string | null
+  website?: string | null
   createdAt?: Date | string
   updateAt?: Date | string
   startupInfo?: Prisma.StartupInfoCreateNestedOneWithoutUserInput
@@ -349,7 +349,7 @@ export type UserUncheckedCreateInput = {
   name: string
   description?: string | null
   logo?: string | null
-  webiste?: string | null
+  website?: string | null
   createdAt?: Date | string
   updateAt?: Date | string
   startupInfo?: Prisma.StartupInfoUncheckedCreateNestedOneWithoutUserInput
@@ -363,7 +363,7 @@ export type UserUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  webiste?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startupInfo?: Prisma.StartupInfoUpdateOneWithoutUserNestedInput
@@ -378,7 +378,7 @@ export type UserUncheckedUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  webiste?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startupInfo?: Prisma.StartupInfoUncheckedUpdateOneWithoutUserNestedInput
@@ -393,7 +393,7 @@ export type UserCreateManyInput = {
   name: string
   description?: string | null
   logo?: string | null
-  webiste?: string | null
+  website?: string | null
   createdAt?: Date | string
   updateAt?: Date | string
 }
@@ -405,7 +405,7 @@ export type UserUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  webiste?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -418,7 +418,7 @@ export type UserUncheckedUpdateManyInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  webiste?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -431,7 +431,7 @@ export type UserCountOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   logo?: Prisma.SortOrder
-  webiste?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updateAt?: Prisma.SortOrder
 }
@@ -448,7 +448,7 @@ export type UserMaxOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   logo?: Prisma.SortOrder
-  webiste?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updateAt?: Prisma.SortOrder
 }
@@ -461,7 +461,7 @@ export type UserMinOrderByAggregateInput = {
   name?: Prisma.SortOrder
   description?: Prisma.SortOrder
   logo?: Prisma.SortOrder
-  webiste?: Prisma.SortOrder
+  website?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updateAt?: Prisma.SortOrder
 }
@@ -534,7 +534,7 @@ export type UserCreateWithoutStartupInfoInput = {
   name: string
   description?: string | null
   logo?: string | null
-  webiste?: string | null
+  website?: string | null
   createdAt?: Date | string
   updateAt?: Date | string
   companyInfo?: Prisma.CompanyInfoCreateNestedOneWithoutUserInput
@@ -548,7 +548,7 @@ export type UserUncheckedCreateWithoutStartupInfoInput = {
   name: string
   description?: string | null
   logo?: string | null
-  webiste?: string | null
+  website?: string | null
   createdAt?: Date | string
   updateAt?: Date | string
   companyInfo?: Prisma.CompanyInfoUncheckedCreateNestedOneWithoutUserInput
@@ -577,7 +577,7 @@ export type UserUpdateWithoutStartupInfoInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  webiste?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyInfo?: Prisma.CompanyInfoUpdateOneWithoutUserNestedInput
@@ -591,7 +591,7 @@ export type UserUncheckedUpdateWithoutStartupInfoInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  webiste?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   companyInfo?: Prisma.CompanyInfoUncheckedUpdateOneWithoutUserNestedInput
@@ -604,7 +604,7 @@ export type UserCreateWithoutCompanyInfoInput = {
   name: string
   description?: string | null
   logo?: string | null
-  webiste?: string | null
+  website?: string | null
   createdAt?: Date | string
   updateAt?: Date | string
   startupInfo?: Prisma.StartupInfoCreateNestedOneWithoutUserInput
@@ -618,7 +618,7 @@ export type UserUncheckedCreateWithoutCompanyInfoInput = {
   name: string
   description?: string | null
   logo?: string | null
-  webiste?: string | null
+  website?: string | null
   createdAt?: Date | string
   updateAt?: Date | string
   startupInfo?: Prisma.StartupInfoUncheckedCreateNestedOneWithoutUserInput
@@ -647,7 +647,7 @@ export type UserUpdateWithoutCompanyInfoInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  webiste?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startupInfo?: Prisma.StartupInfoUpdateOneWithoutUserNestedInput
@@ -661,7 +661,7 @@ export type UserUncheckedUpdateWithoutCompanyInfoInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  webiste?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updateAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   startupInfo?: Prisma.StartupInfoUncheckedUpdateOneWithoutUserNestedInput
@@ -677,7 +677,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   name?: boolean
   description?: boolean
   logo?: boolean
-  webiste?: boolean
+  website?: boolean
   createdAt?: boolean
   updateAt?: boolean
   startupInfo?: boolean | Prisma.User$startupInfoArgs<ExtArgs>
@@ -692,7 +692,7 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   description?: boolean
   logo?: boolean
-  webiste?: boolean
+  website?: boolean
   createdAt?: boolean
   updateAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -705,7 +705,7 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   name?: boolean
   description?: boolean
   logo?: boolean
-  webiste?: boolean
+  website?: boolean
   createdAt?: boolean
   updateAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -718,12 +718,12 @@ export type UserSelectScalar = {
   name?: boolean
   description?: boolean
   logo?: boolean
-  webiste?: boolean
+  website?: boolean
   createdAt?: boolean
   updateAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "role" | "name" | "description" | "logo" | "webiste" | "createdAt" | "updateAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "role" | "name" | "description" | "logo" | "website" | "createdAt" | "updateAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   startupInfo?: boolean | Prisma.User$startupInfoArgs<ExtArgs>
   companyInfo?: boolean | Prisma.User$companyInfoArgs<ExtArgs>
@@ -745,7 +745,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     name: string
     description: string | null
     logo: string | null
-    webiste: string | null
+    website: string | null
     createdAt: Date
     updateAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1180,7 +1180,7 @@ export interface UserFieldRefs {
   readonly name: Prisma.FieldRef<"User", 'String'>
   readonly description: Prisma.FieldRef<"User", 'String'>
   readonly logo: Prisma.FieldRef<"User", 'String'>
-  readonly webiste: Prisma.FieldRef<"User", 'String'>
+  readonly website: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updateAt: Prisma.FieldRef<"User", 'DateTime'>
 }

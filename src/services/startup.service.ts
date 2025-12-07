@@ -12,6 +12,7 @@ class StartupService {
 
             return await prisma.startupInfo.findMany({
                 include: {
+                    user: true,
                     members: true,
                 }
             });
@@ -87,7 +88,7 @@ class StartupService {
                 if (!startup.user.description) {
                     throw new AppError('You need to add your startup description', 400);
                 }
-                if (!startup.user.webiste) {
+                if (!startup.user.website) {
                     throw new AppError('You need to add your startup website', 400);
                 }
             }
@@ -111,6 +112,7 @@ class StartupService {
                     instagram: data.instagram,
                     linkedin: data.linkedin,
                     facebook: data.facebook,
+                    contactEmail: data.contactEmail,
                 },
             });
 
@@ -147,6 +149,10 @@ class StartupService {
         try {
             const startupProfile: StartupInfo | null = await prisma.startupInfo.findUnique({
                 where: {id: postId},
+                include: {
+                    user: true,
+                    members: true,
+                }
             });
 
             if (startupProfile === null) {

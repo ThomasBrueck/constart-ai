@@ -28,7 +28,7 @@ model User {
   name String @unique
   description String?
   logo String?
-  webiste String?
+  website String?
   
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt

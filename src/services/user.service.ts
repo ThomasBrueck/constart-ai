@@ -1,8 +1,9 @@
-import { CompanyInfo, StartupInfo, User } from '@prisma/client';
+
 import type { UserInputLogin, UserInputRegister, UserInputUpdate } from "../interfaces/user.interface";
 import { authService } from "./auth.service";
 import { AppError } from "../utils/appError";
 import { prisma } from '../config/prisma.client';
+import { User } from "../../generated/prisma/client";
 
 class UserService {
 
@@ -102,7 +103,7 @@ class UserService {
                     email: data.email,
                     name: data.name,
                     description: data.description,
-                    webiste: data.website,
+                    website: data.website,
                 },
                 select: {
                     id: true,
@@ -110,7 +111,7 @@ class UserService {
                     email: true,
                     name: true,
                     description: true,
-                    webiste: true,                    
+                    website: true,                    
                 }
             });
 
@@ -179,7 +180,7 @@ class UserService {
                     role: true,
                     logo: true,
                     description: true,
-                    webiste: true,
+                    website: true,
                 }
             });
 

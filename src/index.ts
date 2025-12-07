@@ -1,6 +1,7 @@
 import "dotenv/config";
 import "./config/cloudinary";
 import express from "express";
+import cors from "cors";
 import { userRouter } from "./routes/user.routes";
 import { startupRouter } from "./routes/startup.routes";
 import { errorHandler } from "./middleware/error.middleware";
@@ -14,6 +15,13 @@ import { stripeController } from "./controller/stripe.controller";
 
 const app = express();
 const port = process.env.PORT || 8080;
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 app.post('/api/v1/stripe/webhook', express.raw({ type: 'application/json' }), stripeController.webhook.bind(stripeController));
 

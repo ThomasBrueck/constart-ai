@@ -1,4 +1,3 @@
-import type { User } from "@prisma/client";
 import type { JwtPayload } from "../interfaces/jwt.interface";
 import jwt from 'jsonwebtoken';
 import bcrypt from "bcryptjs";
@@ -6,6 +5,7 @@ import { UserInputLogin, UserInputRegister } from "../interfaces/user.interface"
 import { AppError } from "../utils/appError";
 import { userService } from "./user.service";
 import { prisma } from "../config/prisma.client";
+import { User } from "../../generated/prisma/client";
 
 class AuthService {
     private readonly JWT_SECRET: string;
