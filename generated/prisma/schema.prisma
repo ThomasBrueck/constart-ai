@@ -52,7 +52,6 @@ enum IndustryType {
 }
 
 enum TechnologyType {
-  // Frontend Frameworks & Libraries
   REACT
   VUE
   ANGULAR
@@ -66,7 +65,6 @@ enum TechnologyType {
   PREACT
   QWIK
 
-  // Mobile Development
   REACT_NATIVE
   FLUTTER
   KOTLIN
@@ -76,7 +74,6 @@ enum TechnologyType {
   CORDOVA
   CAPACITOR
 
-  // Backend Frameworks
   NODE
   EXPRESS
   NEST
@@ -93,7 +90,6 @@ enum TechnologyType {
   ACTIX
   ROCKET
 
-  // Programming Languages
   JAVASCRIPT
   TYPESCRIPT
   PYTHON
@@ -111,7 +107,6 @@ enum TechnologyType {
   R
   JULIA
 
-  // Databases
   POSTGRESQL
   MYSQL
   MONGODB
@@ -127,7 +122,6 @@ enum TechnologyType {
   INFLUXDB
   TIMESCALEDB
 
-  // Cloud Platforms
   AWS
   AZURE
   GCP
@@ -140,7 +134,6 @@ enum TechnologyType {
   HEROKU
   CLOUDFLARE
 
-  // DevOps & Infrastructure
   DOCKER
   KUBERNETES
   TERRAFORM
@@ -151,7 +144,6 @@ enum TechnologyType {
   CIRCLECI
   TRAVIS_CI
 
-  // AI & Machine Learning
   TENSORFLOW
   PYTORCH
   SCIKIT_LEARN
@@ -162,7 +154,6 @@ enum TechnologyType {
   ANTHROPIC
   STABLE_DIFFUSION
 
-  // Web3 & Blockchain
   ETHEREUM
   SOLIDITY
   WEB3_JS
@@ -172,7 +163,6 @@ enum TechnologyType {
   POLYGON
   SOLANA
 
-  // Testing
   JEST
   VITEST
   CYPRESS
@@ -181,7 +171,6 @@ enum TechnologyType {
   PYTEST
   JUNIT
 
-  // Design & UI
   TAILWIND
   MATERIAL_UI
   CHAKRA_UI
@@ -190,7 +179,6 @@ enum TechnologyType {
   EMOTION
   SASS
 
-  // State Management
   REDUX
   ZUSTAND
   MOBX
@@ -198,7 +186,6 @@ enum TechnologyType {
   JOTAI
   PINIA
 
-  // Build Tools
   VITE
   WEBPACK
   TURBOPACK
@@ -206,7 +193,6 @@ enum TechnologyType {
   ROLLUP
   PARCEL
 
-  // Others
   GRAPHQL
   REST_API
   GRPC
@@ -233,13 +219,13 @@ enum PlanStatus {
 }
 
 enum CompanyType {
-  VENTURE_CAPITAL // Fondo de inversión
-  ANGEL_INVESTOR // Inversor ángel
-  ACCELERATOR // Aceleradora/Incubadora
-  CORPORATION // Empresa/Corporación
-  STARTUP // Otra start-up
-  GOVERNMENT // Gobierno/Institución
-  OTHER // Otro
+  VENTURE_CAPITAL
+  ANGEL_INVESTOR
+  ACCELERATOR
+  CORPORATION
+  STARTUP
+  GOVERNMENT
+  OTHER
 }
 
 model User {
